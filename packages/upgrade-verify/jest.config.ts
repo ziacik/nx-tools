@@ -19,12 +19,12 @@ if (swcJestConfig.swcrc === undefined) {
 // swcJestConfig.module.noInterop = false;
 
 export default {
-	displayName: 'upgrade-verify-plugin',
+	displayName: 'upgrade-verify',
 	preset: '../../jest.preset.js',
 	transform: {
 		'^.+\\.[tj]s$': ['@swc/jest', swcJestConfig],
 	},
 	moduleFileExtensions: ['ts', 'js', 'html'],
 	testEnvironment: '',
-	coverageDirectory: '../../coverage/packages/upgrade-verify-plugin',
+	coverageDirectory: '../../coverage/packages/upgrade-verify',
 };

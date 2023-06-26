@@ -1,5 +1,5 @@
 {
-	"name": "@ziacik/upgrade-verify-plugin",
+	"name": "@ziacik/upgrade-verify",
 	"version": "0.0.1",
 	"type": "commonjs"
 }
