@@ -4,12 +4,6 @@
 	"sourceRoot": "packages/upgrade-verify/src",
 	"projectType": "library",
 	"targets": {
-		"skus": {
-			"executor": "@ziacik/upgrade-verify:verify-build",
-			"options": {
-				"textToEcho": "Hello World"
-			}
-		},
 		"build": {
 			"executor": "@nx/js:swc",
 			"outputs": ["{options.outputPath}"],

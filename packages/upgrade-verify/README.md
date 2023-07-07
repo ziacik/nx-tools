@@ -1,11 +1,49 @@
-# upgrade-verify
+# Nx Upgrade Verify Plugin
 
-This library was generated with [Nx](https://nx.dev).
+This plugin provides functionality to verify the build of a project after NX upgrade by comparing distribution statistics and detecting any significant differences.
 
-## Building
+On each run, the executor builds the project for each configuration from the build target. At the first run, the executor generates stats in the `.stats` directory of the project from the built files.
 
-Run `nx build upgrade-verify` to build the library.
+At every subsequent run, the executor compares the current saved stats with the new ones, writes out difference percentages to the output, and then updates the stats.
 
-## Running unit tests
+The stats can be committed to the repository for future use.
 
-Run `nx test upgrade-verify` to execute the unit tests via [Jest](https://jestjs.io).
+If the percentage differences cross a threshold of 10%, the executor will report a failure.
+
+Please note that the plugin is in the early development stage and configuration options will be added in future updates.
+
+## Installation
+
+To install the plugin, run the following command:
+
+```bash
+npm install -D @ziacik/upgrade-verify
+```
+
+## Usage
+
+Once the plugin is installed, you can use it as a custom executor in your project's configuration. Here's an example configuration:
+
+```json
+{
+	"name": "my-app",
+	...
+	"targets": {
+		"verify-build": {
+			"executor": "@ziacik/upgrade-verify:verify-build"
+		},
+		...
+	},
+	...
+}
+```
+
+Then to use the plugin, run
+
+```bash
+nx verify-build my-app
+```
+
+## License
+
+This project is licensed under the MIT License.

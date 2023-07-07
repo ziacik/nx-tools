@@ -1,6 +1,26 @@
 {
 	"name": "@ziacik/upgrade-verify",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"type": "commonjs",
-	"executors": "./executors.json"
+	"executors": "./executors.json",
+	"keywords": [
+		"nx",
+		"upgrade-verify",
+		"verify-build",
+		"build",
+		"verify",
+		"upgrade",
+		"plugin"
+	],
+	"author": "František Žiačik",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ziacik/nx-tools"
+	},
+	"license": "MIT",
+	"exports": {
+		".": {
+			"require": "./package.json"
+		}
+	}
 }
