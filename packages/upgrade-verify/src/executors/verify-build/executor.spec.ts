@@ -23,7 +23,7 @@ describe('VerifyBuild Executor', () => {
 				yield {
 					success: true,
 					options: {
-						outputPath: resolve(__dirname, '__fixtures__/dist/test-app'),
+						outputPath: resolve(__dirname, '__fixtures__/_dist/test-app'),
 					},
 				};
 			})()
@@ -119,6 +119,40 @@ describe('VerifyBuild Executor', () => {
 		expect(readFile).not.toHaveBeenCalled();
 		expect(writeFile).not.toHaveBeenCalled();
 	});
+
+	it('isolates build runs from executor context modifications', async () => {
+		jest.spyOn(devkit, 'runExecutor').mockImplementation(async (targetDescription, overrides, context) => {
+			if (context.target?.command === 'should-not-retain-this') {
+				throw new Error('Context is modified from previous run.');
+			}
+			context.target ??= {};
+			context.target.command = 'should-not-retain-this';
+			return (async function* () {
+				yield { success: true };
+			})();
+		});
+		context.target = { command: 'whatever' };
+		const { success } = await executor(options, context);
+		expect(success).toBe(true);
+	});
+
+	it('isolates build runs from process env modifications (but retains the originals)', async () => {
+		jest.spyOn(devkit, 'runExecutor').mockImplementation(async (targetDescription, overrides, context) => {
+			if (process.env['something'] === 'should-not-retain-this') {
+				throw new Error('Env is modified from previous run.');
+			}
+			if (process.env['andThis'] !== 'should-be-retained') {
+				throw new Error('Env var has not been retained between runs.');
+			}
+			process.env['something'] = 'should-not-retain-this';
+			return (async function* () {
+				yield { success: true };
+			})();
+		});
+		process.env['andThis'] = 'should-be-retained';
+		const { success } = await executor(options, context);
+		expect(success).toBe(true);
+	});
 });
 
 function createContext(): ExecutorContext {
@@ -135,7 +169,7 @@ function createContext(): ExecutorContext {
 					targets: {
 						build: {
 							options: {
-								outputPath: 'packages/upgrade-verify/src/executors/verify-build/__fixtures__/dist/test-app',
+								outputPath: 'packages/upgrade-verify/src/executors/verify-build/__fixtures__/_dist/test-app',
 							},
 							configurations: {
 								production: {},

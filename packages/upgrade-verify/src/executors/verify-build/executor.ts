@@ -1,6 +1,7 @@
 import { ExecutorContext, logger, runExecutor } from '@nx/devkit';
 import { mkdir, writeFile } from 'fs/promises';
 import { join } from 'path';
+import { env } from 'process';
 import { compareStats } from './dist-stat-comparer';
 import { calculateDistStats, loadExistingDistStats } from './dist-stats';
 import { VerifyBuildExecutorSchema } from './schema';
@@ -29,16 +30,20 @@ export default async function verifyBuild(options: VerifyBuildExecutorSchema, co
 	}
 
 	let success = true;
+	const envBackup = { ...env };
 
 	for (const configurationName of Object.keys(projectConfig.targets['build'].configurations)) {
+		retainEnv(envBackup);
+		const runContext: ExecutorContext = JSON.parse(JSON.stringify(context));
+
 		const result = await runExecutor(
 			{
-				project: context.projectName,
+				project: runContext.projectName ?? '',
 				target: 'build',
 				configuration: configurationName,
 			},
 			{},
-			context
+			runContext
 		);
 
 		for await (const x of result) {
@@ -56,7 +61,7 @@ export default async function verifyBuild(options: VerifyBuildExecutorSchema, co
 		if (existingStats != null) {
 			const comparison = compareStats(existingStats, newStats);
 			logger.info(
-				`Stats for ${context.projectName}/${configurationName}: ${comparison.totalSizeDifferencePercentage}% total size difference, ${comparison.fileCountDifferencePercentage}% file count difference, ${comparison.newFilesPercentage}% new files, ${comparison.deletedFilesPercentage}% deleted files`
+				`Stats for ${runContext.projectName}/${configurationName}: ${comparison.totalSizeDifferencePercentage}% total size difference, ${comparison.fileCountDifferencePercentage}% file count difference, ${comparison.newFilesPercentage}% new files, ${comparison.deletedFilesPercentage}% deleted files`
 			);
 
 			if (
@@ -79,4 +84,11 @@ async function tryMkdir(statsDir: string) {
 	} catch {
 		// ignore
 	}
+}
+
+function retainEnv(envBackup: Record<string, unknown>): void {
+	for (const key of Object.keys(env)) {
+		delete env[key];
+	}
+	Object.assign(env, envBackup);
 }
