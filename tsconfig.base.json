@@ -15,9 +15,7 @@
 		"skipDefaultLibCheck": true,
 		"baseUrl": ".",
 		"paths": {
-			"@ziacik/upgrade-verify-plugin": [
-				"packages/upgrade-verify-plugin/src/index.ts"
-			]
+			"@ziacik/upgrade-verify": ["packages/upgrade-verify/src/index.ts"]
 		}
 	},
 	"exclude": ["node_modules", "tmp"]
