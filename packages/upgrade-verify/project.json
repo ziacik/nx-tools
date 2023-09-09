@@ -4,6 +4,12 @@
 	"sourceRoot": "packages/upgrade-verify/src",
 	"projectType": "library",
 	"targets": {
+		"skus": {
+			"executor": "@ziacik/upgrade-verify:verify-build",
+			"options": {
+				"textToEcho": "Hello World"
+			}
+		},
 		"build": {
 			"executor": "@nx/js:swc",
 			"outputs": ["{options.outputPath}"],
@@ -46,7 +52,8 @@
 			"options": {
 				"lintFilePatterns": [
 					"packages/upgrade-verify/**/*.ts",
-					"packages/upgrade-verify/package.json"
+					"packages/upgrade-verify/package.json",
+					"packages/upgrade-verify/executors.json"
 				]
 			}
 		},

@@ -5,6 +5,9 @@
 	"sourceRoot": "packages/test-app/src",
 	"tags": [],
 	"targets": {
+		"verify": {
+			"executor": "@ziacik/upgrade-verify:verify-build"
+		},
 		"build": {
 			"executor": "@nx/webpack:webpack",
 			"outputs": ["{options.outputPath}"],
