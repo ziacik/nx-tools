@@ -15,6 +15,7 @@
 		"skipDefaultLibCheck": true,
 		"baseUrl": ".",
 		"paths": {
+			"@ziacik/azure-func": ["packages/azure-func/src/index.ts"],
 			"@ziacik/upgrade-verify": ["packages/upgrade-verify/src/index.ts"]
 		}
 	},
