@@ -50,11 +50,7 @@
 			"executor": "@nx/linter:eslint",
 			"outputs": ["{options.outputFile}"],
 			"options": {
-				"lintFilePatterns": [
-					"packages/upgrade-verify/**/*.ts",
-					"packages/upgrade-verify/package.json",
-					"packages/upgrade-verify/executors.json"
-				]
+				"lintFilePatterns": ["packages/upgrade-verify/**/*.ts", "packages/upgrade-verify/package.json", "packages/upgrade-verify/executors.json"]
 			}
 		},
 		"test": {

@@ -1,0 +1,15 @@
+{
+	"name": "",
+	"size": 42926,
+	"items": [
+		{ "name": "3rdpartylicenses.txt", "size": 19, "items": [] },
+		{ "name": "assets", "size": 0, "items": [{ "name": ".gitkeep", "size": 0, "items": [] }] },
+		{ "name": "favicon.ico", "size": 15086, "items": [] },
+		{ "name": "index.html", "size": 608, "items": [] },
+		{ "name": "main.0274b0362ab850a9.css", "size": 6168, "items": [] },
+		{ "name": "main.3d931a8f6ad8b28f.js", "size": 18760, "items": [] },
+		{ "name": "runtime.dd97139be5136261.js", "size": 2109, "items": [] },
+		{ "name": "styles.91b7890a3e13c303.js", "size": 176, "items": [] },
+		{ "name": "styles.ef46db3751d8e999.css", "size": 0, "items": [] }
+	]
+}

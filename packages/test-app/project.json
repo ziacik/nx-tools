@@ -18,10 +18,7 @@
 				"main": "packages/test-app/src/main.ts",
 				"tsConfig": "packages/test-app/tsconfig.app.json",
 				"webpackConfig": "packages/test-app/webpack.config.js",
-				"assets": [
-					"packages/test-app/src/favicon.ico",
-					"packages/test-app/src/assets"
-				],
+				"assets": ["packages/test-app/src/favicon.ico", "packages/test-app/src/assets"],
 				"index": "packages/test-app/src/index.html",
 				"baseHref": "/",
 				"styles": ["packages/test-app/src/styles.css"],
