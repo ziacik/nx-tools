@@ -55,7 +55,11 @@
 			"description": "Use `@swc/jest` instead `ts-jest` for faster test compilation.",
 			"default": false
 		},
-
+		"strict": {
+			"type": "boolean",
+			"description": "Creates an application with strict mode and strict type checking.",
+			"default": true
+		},
 		"js": {
 			"type": "boolean",
 			"description": "Generate JavaScript files rather than TypeScript files.",
@@ -66,7 +70,6 @@
 			"description": "Whether or not to configure the ESLint `parserOptions.project` option. We do not do this by default for lint performance reasons.",
 			"default": false
 		},
-
 		"bundler": {
 			"description": "Bundler which is used to package the application",
 			"type": "string",
@@ -74,7 +77,6 @@
 			"default": "esbuild",
 			"x-priority": "important"
 		},
-
 		"port": {
 			"description": "The port which the server will be run on",
 			"type": "number",
