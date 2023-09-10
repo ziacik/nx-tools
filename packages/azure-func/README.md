@@ -1,11 +1,20 @@
-# azure-func
+# Nx Azure Function Plugin
 
-This library was generated with [Nx](https://nx.dev).
+This plugin provides generators and executors for Azure Functions.
 
-## Building
+## Installation
 
-Run `nx build azure-func` to build the library.
+To install the plugin, run the following command:
 
-## Running unit tests
+```bash
+npm install -D @ziacik/azure-func
+```
 
-Run `nx test azure-func` to execute the unit tests via [Jest](https://jestjs.io).
+## Usage
+
+Once the plugin is installed, you can use it to generate an azure func application.
+This doesn't require to have a `func` cli installed, but to `serve` or `publish` the app, it does.
+
+## License
+
+This project is licensed under the MIT License.
