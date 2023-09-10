@@ -1,0 +1,3 @@
+import { registerHelloFunction } from './hello/hello.function';
+
+registerHelloFunction();

@@ -1,6 +1,6 @@
 import { execSync } from 'child_process';
-import { join, dirname } from 'path';
 import { mkdirSync, rmSync } from 'fs';
+import { dirname, join } from 'path';
 
 describe('azure-func', () => {
 	let projectDirectory: string;
@@ -28,6 +28,14 @@ describe('azure-func', () => {
 	it('should be installed', () => {
 		// npm ls will fail if the package is not installed properly
 		execSync('npm ls @ziacik/azure-func', {
+			cwd: projectDirectory,
+			stdio: 'inherit',
+		});
+	});
+
+	it('should generate app', () => {
+		// npm ls will fail if the package is not installed properly
+		execSync('nx generate @ziacik/azure-func:application', {
 			cwd: projectDirectory,
 			stdio: 'inherit',
 		});
