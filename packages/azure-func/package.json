@@ -11,5 +11,11 @@
 	"type": "commonjs",
 	"main": "./src/index.js",
 	"typings": "./src/index.d.ts",
-	"generators": "./generators.json"
+	"generators": "./generators.json",
+	"author": "František Žiačik",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ziacik/nx-tools"
+	},
+	"license": "MIT"
 }
