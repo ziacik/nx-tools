@@ -38,7 +38,7 @@
 			}
 		},
 		"publish": {
-			"command": "node tools/scripts/publish.mjs upgrade-verify-plugin {args.ver} {args.tag}",
+			"command": "node tools/scripts/publish.mjs upgrade-verify {args.ver} {args.tag}",
 			"dependsOn": ["build"]
 		},
 		"lint": {
