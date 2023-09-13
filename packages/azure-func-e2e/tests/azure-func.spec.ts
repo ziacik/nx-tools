@@ -35,7 +35,7 @@ describe('azure-func', () => {
 
 	it('should generate app', () => {
 		// npm ls will fail if the package is not installed properly
-		execSync('nx generate @ziacik/azure-func:application', {
+		execSync('nx generate @ziacik/azure-func:application --name=my-func-app', {
 			cwd: projectDirectory,
 			stdio: 'inherit',
 		});
