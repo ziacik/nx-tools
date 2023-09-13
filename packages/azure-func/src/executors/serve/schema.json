@@ -1,0 +1,20 @@
+{
+	"$schema": "http://json-schema.org/schema",
+	"version": 2,
+	"title": "Serve executor",
+	"description": "",
+	"type": "object",
+	"properties": {
+		"buildTarget": {
+			"type": "string",
+			"description": "The target to run to build you the app."
+		},
+		"buildTargetOptions": {
+			"type": "object",
+			"description": "Additional options to pass into the build target.",
+			"default": {}
+		}
+	},
+	"additionalProperties": false,
+	"required": ["buildTarget"]
+}

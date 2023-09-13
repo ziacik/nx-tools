@@ -44,7 +44,12 @@
 			"executor": "@nx/linter:eslint",
 			"outputs": ["{options.outputFile}"],
 			"options": {
-				"lintFilePatterns": ["packages/azure-func/**/*.ts", "packages/azure-func/package.json", "packages/azure-func/generators.json"]
+				"lintFilePatterns": [
+					"packages/azure-func/**/*.ts",
+					"packages/azure-func/package.json",
+					"packages/azure-func/generators.json",
+					"packages/azure-func/executors.json"
+				]
 			}
 		},
 		"test": {
