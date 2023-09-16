@@ -6,9 +6,22 @@ import { join } from 'path';
 import { ServeExecutorSchema } from './schema';
 
 export default async function runxExecutor(options: ServeExecutorSchema, context: ExecutorContext) {
-	process.env.NODE_ENV ??= context?.configurationName ?? 'development';
+	process.env['NODE_ENV'] ??= context?.configurationName ?? 'development';
+
+	if (context.projectName == null) {
+		throw new Error('ProjectName undefined in executor context.');
+	}
+
+	if (context.projectGraph == null) {
+		throw new Error('ProjectName undefined in executor context.');
+	}
 
 	const project = context.projectGraph.nodes[context.projectName];
+
+	if (project.data.targets == null) {
+		throw new Error('Project targets undefined in executor context.');
+	}
+
 	const buildTarget = parseTargetString(options.buildTarget, context.projectGraph);
 
 	if (!project.data.targets[buildTarget.target]) {

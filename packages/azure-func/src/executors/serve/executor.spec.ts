@@ -188,8 +188,8 @@ describe('Serve Executor', () => {
 		buildWill('succeed', 'terminate');
 		const { success } = await executor(options, context);
 		expect(success).toBe(false);
-		expect(funcProcess.stdout.pipe).toHaveBeenCalledWith(process.stdout);
-		expect(funcProcess.stderr.pipe).toHaveBeenCalledWith(process.stderr);
+		expect(funcProcess.stdout?.pipe).toHaveBeenCalledWith(process.stdout);
+		expect(funcProcess.stderr?.pipe).toHaveBeenCalledWith(process.stderr);
 	});
 
 	function funcWillExit(code: number): void {
@@ -217,6 +217,8 @@ describe('Serve Executor', () => {
 				await new Promise(() => {
 					/* simluate watching forever */
 				});
+
+				return { success: false };
 			})()
 		);
 

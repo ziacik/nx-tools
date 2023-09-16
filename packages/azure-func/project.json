@@ -65,6 +65,13 @@
 					"codeCoverage": true
 				}
 			}
+		},
+		"typecheck:specs": {
+			"executor": "nx:run-commands",
+			"outputs": [],
+			"options": {
+				"command": "tsc --noEmit -p packages/azure-func/tsconfig.spec.json"
+			}
 		}
 	},
 	"tags": []
