@@ -7,11 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2023-09-16
+
+### Added
+
+- `publish` executor added.
+
 ## [0.2.0] - 2023-09-15
 
 ### Changed
 
 - `serve` now watches the project for changes.
 
-[unreleased]: https://github.com/ziacik/nx-tools/compare/azure-func-0.2.0...HEAD
+[unreleased]: https://github.com/ziacik/nx-tools/compare/azure-func-0.3.0...HEAD
+[0.3.0]: https://github.com/ziacik/nx-tools/compare/azure-func-0.3.0...azure-func-0.2.0
 [0.2.0]: https://github.com/ziacik/nx-tools/releases/tag/azure-func-0.2.0
