@@ -1,4 +1,3 @@
-export interface ServeExecutorSchema {
-	buildTargetOptions: Record<string, unknown>;
-	buildTarget: string;
-}
+import { SchemaWithBuildTarget } from '@ziacik/util';
+
+export type ServeExecutorSchema = SchemaWithBuildTarget;

@@ -1,13 +1,13 @@
 {
 	"name": "@ziacik/azure-func",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"dependencies": {
 		"@nx/devkit": "16.8.1",
 		"@nx/js": "16.8.1",
 		"@nx/linter": "16.8.1",
 		"@nx/node": "16.8.1",
 		"@swc/helpers": "~0.5.0",
-		"chalk": "^4.1.2"
+		"@ziacik/util": "1.0.0"
 	},
 	"type": "commonjs",
 	"main": "./src/index.js",

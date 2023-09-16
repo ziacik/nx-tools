@@ -1,0 +1,24 @@
+{
+	"$schema": "http://json-schema.org/schema",
+	"version": 2,
+	"title": "Publish executor",
+	"description": "",
+	"type": "object",
+	"properties": {
+		"azureAppName": {
+			"type": "string",
+			"description": "Name of the target azure function application on Azure."
+		},
+		"buildTarget": {
+			"type": "string",
+			"description": "The target to run to build you the app."
+		},
+		"buildTargetOptions": {
+			"type": "object",
+			"description": "Additional options to pass into the build target.",
+			"default": {}
+		}
+	},
+	"additionalProperties": false,
+	"required": ["azureAppName", "buildTarget"]
+}

@@ -1,32 +1,13 @@
-import { ExecutorContext, Target, parseTargetString, readTargetOptions, runExecutor } from '@nx/devkit';
-import { ExecutorOptions } from '@nx/js/src/utils/schema';
-import * as chalk from 'chalk';
+import { ExecutorContext, Target, runExecutor } from '@nx/devkit';
+import { getBuildOptions, getBuildTarget } from '@ziacik/util';
 import { ChildProcess, spawn } from 'child_process';
 import { join } from 'path';
 import { ServeExecutorSchema } from './schema';
 
-export default async function runxExecutor(options: ServeExecutorSchema, context: ExecutorContext) {
+export default async function runServeExecutor(options: ServeExecutorSchema, context: ExecutorContext) {
 	process.env['NODE_ENV'] ??= context?.configurationName ?? 'development';
 
-	if (context.projectName == null) {
-		throw new Error('ProjectName undefined in executor context.');
-	}
-
-	if (context.projectGraph == null) {
-		throw new Error('ProjectName undefined in executor context.');
-	}
-
-	const project = context.projectGraph.nodes[context.projectName];
-
-	if (project.data.targets == null) {
-		throw new Error('Project targets undefined in executor context.');
-	}
-
-	const buildTarget = parseTargetString(options.buildTarget, context.projectGraph);
-
-	if (!project.data.targets[buildTarget.target]) {
-		throw new Error(`Cannot find build target ${chalk.bold(options.buildTarget)} for project ${chalk.bold(context.projectName)}`);
-	}
+	const buildTarget = getBuildTarget(options, context);
 
 	const buildIterator = await runExecutor(buildTarget, { ...options.buildTargetOptions, watch: true }, context);
 	let buildResult = await buildIterator.next();
@@ -62,13 +43,8 @@ async function waitForSuccessfulBuild(
 }
 
 function runAzureFunction(buildTarget: Target, options: ServeExecutorSchema, context: ExecutorContext) {
-	const buildOptions: ExecutorOptions = {
-		...readTargetOptions(buildTarget, context),
-		...options.buildTargetOptions,
-	};
-
-	const outputPath = buildOptions.outputPath;
-	const distDir = join(context.root, outputPath);
+	const buildOptions = getBuildOptions(buildTarget, options, context);
+	const distDir = join(context.root, buildOptions.outputPath);
 
 	const funcProcess = spawn('func', ['host', 'start', '--language-worker', '--', '--inspect=9229'], {
 		cwd: distDir,
