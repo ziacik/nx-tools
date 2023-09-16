@@ -31,7 +31,7 @@ describe('application generator', () => {
 		const project = readProjectConfiguration(tree, 'my-function-app');
 
 		expect(project.root).toEqual('my-function-app');
-		expect(project.targets.build).toStrictEqual({
+		expect(project.targets?.['build']).toStrictEqual({
 			executor: '@nx/esbuild:esbuild',
 			outputs: ['{options.outputPath}'],
 			defaultConfiguration: 'production',
@@ -75,7 +75,7 @@ describe('application generator', () => {
 			},
 		});
 
-		expect(project.targets.serve).toStrictEqual({
+		expect(project.targets?.['serve']).toStrictEqual({
 			executor: '@ziacik/azure-func:serve',
 			defaultConfiguration: 'development',
 			options: {
@@ -91,7 +91,7 @@ describe('application generator', () => {
 			},
 		});
 
-		expect(project.targets.publish).toStrictEqual({
+		expect(project.targets?.['publish']).toStrictEqual({
 			executor: '@ziacik/azure-func:publish',
 			defaultConfiguration: 'development',
 			options: {
@@ -108,7 +108,7 @@ describe('application generator', () => {
 			dependsOn: ['build'],
 		});
 
-		expect(project.targets.lint).toStrictEqual({
+		expect(project.targets?.['lint']).toStrictEqual({
 			executor: '@nx/linter:eslint',
 			outputs: ['{options.outputFile}'],
 			options: {

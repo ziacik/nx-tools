@@ -52,9 +52,9 @@ function adjustProjectConfig(tree: Tree, normalizedOptions: NormalizedSchema): P
 		targets: {
 			...generatedProjectConfig.targets,
 			build: {
-				...generatedProjectConfig.targets.build,
+				...generatedProjectConfig.targets?.['build'],
 				options: {
-					...generatedProjectConfig.targets.build.options,
+					...generatedProjectConfig.targets?.['build'].options,
 					bundle: true,
 					assets: [
 						{
@@ -71,11 +71,11 @@ function adjustProjectConfig(tree: Tree, normalizedOptions: NormalizedSchema): P
 				},
 			},
 			serve: {
-				...generatedProjectConfig.targets.serve,
+				...generatedProjectConfig.targets?.['serve'],
 				executor: '@ziacik/azure-func:serve',
 			},
 			publish: {
-				...generatedProjectConfig.targets.serve,
+				...generatedProjectConfig.targets?.['serve'],
 				executor: '@ziacik/azure-func:publish',
 				dependsOn: ['build'],
 			},

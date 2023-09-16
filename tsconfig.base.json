@@ -8,6 +8,7 @@
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"importHelpers": true,
+		"isolatedModules": true,
 		"target": "es2015",
 		"module": "esnext",
 		"lib": ["es2020", "dom"],
@@ -17,7 +18,13 @@
 		"paths": {
 			"@ziacik/azure-func": ["packages/azure-func/src/index.ts"],
 			"@ziacik/upgrade-verify": ["packages/upgrade-verify/src/index.ts"]
-		}
+		},
+		"forceConsistentCasingInFileNames": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitOverride": true,
+		"noImplicitReturns": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"strict": true
 	},
 	"exclude": ["node_modules", "tmp"]
 }
