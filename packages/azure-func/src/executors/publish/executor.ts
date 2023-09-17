@@ -1,6 +1,8 @@
 import { ExecutorContext, runExecutor } from '@nx/devkit';
-import { getBuildOptions, getBuildTarget, spawnSyncChecked } from '@ziacik/util';
 import { join } from 'path';
+import { getBuildOptions } from '../../utils/getBuildOptions';
+import { getBuildTarget } from '../../utils/getBuildTarget';
+import { spawnSyncChecked } from '../../utils/spawnSyncChecked';
 import { PublishExecutorSchema } from './schema';
 
 export default async function runPublishExecutor(options: PublishExecutorSchema, context: ExecutorContext): Promise<{ success: boolean }> {
