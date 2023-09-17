@@ -3,8 +3,12 @@
  * It is meant to be called in jest's globalTeardown.
  */
 
+declare module globalThis {
+	function stopLocalRegistry(): void;
+}
+
 export default () => {
-	if (global.stopLocalRegistry) {
-		global.stopLocalRegistry();
+	if (globalThis.stopLocalRegistry) {
+		globalThis.stopLocalRegistry();
 	}
 };
