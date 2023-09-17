@@ -1,3 +1,3 @@
-import { SchemaWithBuildTarget } from '@ziacik/util';
+import { SchemaWithBuildTarget } from '../../utils/schemaWithBuildTarget';
 
 export type ServeExecutorSchema = SchemaWithBuildTarget;

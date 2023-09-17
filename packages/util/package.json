@@ -1,9 +1,0 @@
-{
-	"name": "@ziacik/util",
-	"version": "1.0.0",
-	"dependencies": {
-		"@nx/devkit": "16.8.1",
-		"@nx/js": "16.8.1",
-		"@swc/helpers": "~0.5.0"
-	}
-}

@@ -17,8 +17,7 @@
 		"baseUrl": ".",
 		"paths": {
 			"@ziacik/azure-func": ["packages/azure-func/src/index.ts"],
-			"@ziacik/upgrade-verify": ["packages/upgrade-verify/src/index.ts"],
-			"@ziacik/util": ["packages/util/src/index.ts"]
+			"@ziacik/upgrade-verify": ["packages/upgrade-verify/src/index.ts"]
 		},
 		"forceConsistentCasingInFileNames": true,
 		"noFallthroughCasesInSwitch": true,

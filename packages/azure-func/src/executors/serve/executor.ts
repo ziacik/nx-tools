@@ -1,7 +1,8 @@
 import { ExecutorContext, Target, runExecutor } from '@nx/devkit';
-import { getBuildOptions, getBuildTarget } from '@ziacik/util';
 import { ChildProcess, spawn } from 'child_process';
 import { join } from 'path';
+import { getBuildOptions } from '../../utils/getBuildOptions';
+import { getBuildTarget } from '../../utils/getBuildTarget';
 import { ServeExecutorSchema } from './schema';
 
 export default async function runServeExecutor(options: ServeExecutorSchema, context: ExecutorContext) {
