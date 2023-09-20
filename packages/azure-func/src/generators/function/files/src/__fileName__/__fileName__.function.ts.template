@@ -1,6 +1,6 @@
 import { app, HttpRequest, HttpResponseInit, InvocationContext } from '@azure/functions';
 
-export async function hello(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
+export async function <%= propertyName %>(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
 	context.log(`Http function processed request for url "${request.url}"`);
 
 	const name = request.query.get('name') || (await request.text()) || '<%= name %>';
@@ -8,10 +8,10 @@ export async function hello(request: HttpRequest, context: InvocationContext): P
 	return { body: `Hello, ${name}!` };
 }
 
-export function registerHelloFunction(): void {
-	app.http('hello', {
+export function register<%= className %>Function(): void {
+	app.http('<%= fileName %>', {
 		methods: ['GET', 'POST'],
 		authLevel: 'anonymous',
-		handler: hello,
+		handler: <%= propertyName %>,
 	});
 }

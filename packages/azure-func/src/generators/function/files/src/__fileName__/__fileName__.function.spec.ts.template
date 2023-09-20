@@ -1,0 +1,17 @@
+import { HttpRequest, InvocationContext } from '@azure/functions';
+import { <%= propertyName %> } from './<%= fileName %>.function';
+
+describe('<%= propertyName %>', () => {
+	it('returns a response', async () => {
+		const request = toRequest({ name: 'world' });
+		const context = new InvocationContext();
+
+		const result = await <%= propertyName %>(request, context);
+
+		expect(result.body).toStrictEqual('Hello, world!');
+	});
+});
+
+function toRequest(query: Record<string, string>): HttpRequest {
+	return new HttpRequest({ url: 'https://some.url', method: 'GET', query });
+}
