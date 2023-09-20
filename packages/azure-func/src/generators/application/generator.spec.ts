@@ -139,6 +139,7 @@ describe('application generator', () => {
 		expect(tree.exists(`my-function-app/jest.config.ts`)).toBeTruthy();
 		expect(tree.exists('my-function-app/src/main.ts')).toBeTruthy();
 		expect(tree.exists('my-function-app/src/hello/hello.function.ts')).toBeTruthy();
+		expect(tree.exists('my-function-app/src/hello/hello.function.spec.ts')).toBeTruthy();
 		expect(tree.exists('my-function-app/.funcignore')).toBeTruthy();
 		expect(tree.exists('my-function-app/host.json')).toBeTruthy();
 		expect(tree.exists('my-function-app/local.settings.json')).toBeTruthy();

@@ -22,6 +22,7 @@ import { applicationGenerator as nodeApplicationGenerator } from '@nx/node';
 
 import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 import { join } from 'path';
+import functionGenerator from '../function/generator';
 import { ApplicationGeneratorSchema } from './schema';
 
 export interface NormalizedSchema extends ApplicationGeneratorSchema {
@@ -163,6 +164,8 @@ export async function applicationGenerator(tree: Tree, schema: ApplicationGenera
 	}
 
 	addFiles(tree, normalizedOptions);
+	await functionGenerator(tree, { name: 'hello', project: normalizedOptions.name });
+
 	await formatFiles(tree);
 
 	return runTasksInSerial(...tasks);
