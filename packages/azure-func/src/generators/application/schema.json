@@ -17,6 +17,12 @@
 			"x-priority": "important",
 			"pattern": "^[a-zA-Z][^:]*$"
 		},
+		"azureAppName": {
+			"description": "The name of the target Azure Function App for publishing. Leave empty to use the name of the application.",
+			"type": "string",
+			"x-priority": "important",
+			"pattern": "^[a-zA-Z0-9-]*$"
+		},
 		"directory": {
 			"description": "The directory of the new application.",
 			"type": "string",

@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2023-09-22
+
+### Fixed
+
+- Application generator now supports generating custom `azureAppName`.
+- Application generator now generates _publish_ target with _production_ as default configuration instead of _development_.
+
+### Changed
+
+- The `azureAppName` option is now optional in _publish_ target, with fallback calculated at runtime.
+- Better logging in case when `func` cli is not installed.
+- Bumped `@azure/functions` dep to _alpha.13_.
+- Better _README_.
+
 ## [1.0.0] - 2023-09-20
 
 ### Added

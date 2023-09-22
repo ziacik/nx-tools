@@ -148,10 +148,10 @@ describe('Publish Executor', () => {
 	it('if installing dependencies throws, we fail', async () => {
 		buildWill('succeed');
 		npmProcessWill('terminate');
-		expectConsoleError();
+		expectLogError();
 		const { success } = await executor(options, context);
 		expect(success).toBe(false);
-		expect(console.error).toHaveBeenCalledWith(new Error('Process spawn error.'));
+		expect(devkit.logger.error).toHaveBeenCalledWith(new Error('Process spawn error.'));
 	});
 
 	it('will not start publish if npm i fails', async () => {
@@ -173,14 +173,26 @@ describe('Publish Executor', () => {
 		});
 	});
 
+	it('will use application name if azureAppName option is not set', async () => {
+		buildWill('succeed');
+		npmProcessWill('succeed');
+		funcProcessWill('succeed');
+		delete options.azureAppName;
+		await executor(options, context);
+		expect(childProcess.spawnSync).toHaveBeenCalledWith('func', ['azure', 'functionapp', 'publish', 'my-app'], {
+			cwd: '/root/some/path/dist/my-app',
+			stdio: 'inherit',
+		});
+	});
+
 	it('if publish terminates, we fail', async () => {
 		buildWill('succeed');
 		npmProcessWill('succeed');
 		funcProcessWill('terminate');
-		expectConsoleError();
+		expectLogError();
 		const output = await executor(options, context);
 		expect(output.success).toBe(false);
-		expect(console.error).toHaveBeenCalledWith(new Error('Process spawn error.'));
+		expect(devkit.logger.error).toHaveBeenCalledWith(new Error('Process spawn error.'));
 	});
 
 	it('if publish fails, we fail', async () => {
@@ -220,6 +232,6 @@ describe('Publish Executor', () => {
 	}
 });
 
-function expectConsoleError() {
-	jest.mocked(console.error).mockImplementation();
+function expectLogError() {
+	jest.spyOn(devkit.logger, 'error').mockImplementation();
 }
