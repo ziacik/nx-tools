@@ -7,7 +7,7 @@
 	"properties": {
 		"azureAppName": {
 			"type": "string",
-			"description": "Name of the target azure function application on Azure."
+			"description": "Name of the remote Azure Function App on Azure. If not set, application name will be used."
 		},
 		"buildTarget": {
 			"type": "string",
@@ -20,5 +20,5 @@
 		}
 	},
 	"additionalProperties": false,
-	"required": ["azureAppName", "buildTarget"]
+	"required": ["buildTarget"]
 }

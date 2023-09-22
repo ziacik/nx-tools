@@ -1,4 +1,4 @@
-import { ExecutorContext, runExecutor } from '@nx/devkit';
+import { ExecutorContext, logger, runExecutor } from '@nx/devkit';
 import { join } from 'path';
 import { getBuildOptions } from '../../utils/getBuildOptions';
 import { getBuildTarget } from '../../utils/getBuildTarget';
@@ -6,10 +6,9 @@ import { spawnSyncChecked } from '../../utils/spawnSyncChecked';
 import { PublishExecutorSchema } from './schema';
 
 export default async function runPublishExecutor(options: PublishExecutorSchema, context: ExecutorContext): Promise<{ success: boolean }> {
-	process.env['NODE_ENV'] ??= context?.configurationName ?? 'development';
+	process.env['NODE_ENV'] ??= context?.configurationName ?? 'production';
 
 	const buildTarget = getBuildTarget(options, context);
-
 	const buildIterator = await runExecutor(buildTarget, { ...options.buildTargetOptions, watch: false }, context);
 
 	for await (const buildResult of buildIterator) {
@@ -27,7 +26,18 @@ export default async function runPublishExecutor(options: PublishExecutorSchema,
 		return npmResult;
 	}
 
-	return publishDist(distDir, options.azureAppName);
+	const azureAppName = options.azureAppName ?? context.projectName;
+
+	if (!azureAppName) {
+		logger.error(
+			'Unable to determine Azure Function App name for publishing because projectName is undefined or empty. Please set azureAppName option explicitly.'
+		);
+		return {
+			success: false,
+		};
+	}
+
+	return publishDist(distDir, azureAppName);
 }
 
 function buildDependenciesInDist(distDir: string): { success: boolean } {
@@ -38,8 +48,13 @@ function buildDependenciesInDist(distDir: string): { success: boolean } {
 }
 
 function publishDist(distDir: string, azureAppName: string): { success: boolean } {
-	return spawnSyncChecked('func', ['azure', 'functionapp', 'publish', azureAppName], {
-		cwd: distDir,
-		stdio: 'inherit',
-	});
+	return spawnSyncChecked(
+		'func',
+		['azure', 'functionapp', 'publish', azureAppName],
+		{
+			cwd: distDir,
+			stdio: 'inherit',
+		},
+		`The func cli command not found. Please install it with 'npm i -g azure-functions-core-tools@4 --unsafe-perm true' or see https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local#install-the-azure-functions-core-tools`
+	);
 }

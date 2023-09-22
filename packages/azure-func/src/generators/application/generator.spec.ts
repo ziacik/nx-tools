@@ -18,7 +18,7 @@ describe('application generator', () => {
 		const packageJson = readJson(tree, 'package.json');
 		expect(packageJson).toMatchObject({
 			dependencies: {
-				'@azure/functions': '^4.0.0-alpha.11',
+				'@azure/functions': '^4.0.0-alpha.13',
 			},
 		});
 	});
@@ -93,7 +93,7 @@ describe('application generator', () => {
 
 		expect(project.targets?.['publish']).toStrictEqual({
 			executor: '@ziacik/azure-func:publish',
-			defaultConfiguration: 'development',
+			defaultConfiguration: 'production',
 			options: {
 				buildTarget: 'my-function-app:build',
 			},
@@ -250,5 +250,15 @@ describe('application generator', () => {
 		expect(tsconfig.compilerOptions).toStrictEqual({
 			esModuleInterop: true,
 		});
+	});
+
+	it('can set custom azureAppName', async () => {
+		await applicationGenerator(tree, {
+			name: 'myFunctionApp',
+			azureAppName: 'my-custom-app',
+		});
+
+		const project = readProjectConfiguration(tree, 'my-function-app');
+		expect(project.targets?.['publish'].options.azureAppName).toStrictEqual('my-custom-app');
 	});
 });

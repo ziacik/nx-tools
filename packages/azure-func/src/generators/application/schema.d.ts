@@ -1,5 +1,6 @@
 export interface ApplicationGeneratorSchema {
 	name: string;
+	azureAppName?: string;
 	strict?: boolean;
 	skipFormat?: boolean;
 	directory?: string;

@@ -14,13 +14,10 @@ import {
 	updateJson,
 	updateProjectConfiguration,
 } from '@nx/devkit';
-import { Linter } from '@nx/linter';
-
-import { getRelativePathToRootTsConfig } from '@nx/js';
-
-import { applicationGenerator as nodeApplicationGenerator } from '@nx/node';
-
 import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
+import { getRelativePathToRootTsConfig } from '@nx/js';
+import { Linter } from '@nx/linter';
+import { applicationGenerator as nodeApplicationGenerator } from '@nx/node';
 import { join } from 'path';
 import functionGenerator from '../function/generator';
 import { ApplicationGeneratorSchema } from './schema';
@@ -78,6 +75,11 @@ function adjustProjectConfig(tree: Tree, normalizedOptions: NormalizedSchema): P
 			publish: {
 				...generatedProjectConfig.targets?.['serve'],
 				executor: '@ziacik/azure-func:publish',
+				defaultConfiguration: 'production',
+				options: {
+					...generatedProjectConfig.targets?.['serve'].options,
+					azureAppName: normalizedOptions.azureAppName,
+				},
 				dependsOn: ['build'],
 			},
 		},
@@ -138,7 +140,7 @@ function addProjectDependencies(tree: Tree): GeneratorCallback {
 	return addDependenciesToPackageJson(
 		tree,
 		{
-			'@azure/functions': '^4.0.0-alpha.11',
+			'@azure/functions': '^4.0.0-alpha.13',
 		},
 		{}
 	);

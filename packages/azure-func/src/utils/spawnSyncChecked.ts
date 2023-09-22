@@ -1,14 +1,35 @@
+import { logger } from '@nx/devkit';
 import { SpawnSyncOptions, spawnSync } from 'child_process';
 
-export function spawnSyncChecked(command: string, args?: ReadonlyArray<string>, options?: SpawnSyncOptions): { success: boolean } {
+export function spawnSyncChecked(command: string, args?: ReadonlyArray<string>, options?: SpawnSyncOptions, enoentMessage?: string): { success: boolean } {
 	try {
-		const { status } = spawnSync(command, args, options);
+		const { status, error } = spawnSync(command, args, options);
+
+		if (error) {
+			logError(enoentMessage, error);
+		}
 
 		return {
 			success: status === 0,
 		};
 	} catch (e) {
-		console.error(e);
+		logError(enoentMessage, e);
 		return { success: false };
 	}
+}
+
+function logError(enoentMessage: string | undefined, e: unknown) {
+	if (enoentMessage && isEnoent(e)) {
+		logger.error(enoentMessage);
+	} else {
+		logger.error(e);
+	}
+}
+
+function isErrnoException(error: unknown): error is NodeJS.ErrnoException {
+	return error instanceof Error && 'errno' in error && 'code' in error;
+}
+
+function isEnoent(error: unknown): boolean {
+	return isErrnoException(error) && error.code === 'ENOENT';
 }
