@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2023-09-23
+
+### Changed
+
+- Upgraded nx to 16.9.0.
+
 ## [1.0.1] - 2023-09-22
 
 ### Fixed
@@ -49,8 +55,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `serve` now watches the project for changes.
 
-[unreleased]: https://github.com/ziacik/nx-tools/compare/azure-func-1.0.0...HEAD
-[1.0.0]: https://github.com/ziacik/nx-tools/compare/azure-func-1.0.0...azure-func-0.3.1
-[0.3.1]: https://github.com/ziacik/nx-tools/compare/azure-func-0.3.1...azure-func-0.3.0
-[0.3.0]: https://github.com/ziacik/nx-tools/compare/azure-func-0.3.0...azure-func-0.2.0
+[unreleased]: https://github.com/ziacik/nx-tools/compare/azure-func-1.1.0...HEAD
+[1.1.0]: https://github.com/ziacik/nx-tools/compare/azure-func-1.0.0...azure-func-1.1.0
+[1.0.0]: https://github.com/ziacik/nx-tools/compare/azure-func-0.3.1...azure-func-1.0.0
+[0.3.1]: https://github.com/ziacik/nx-tools/compare/azure-func-0.3.0...azure-func-0.3.1
+[0.3.0]: https://github.com/ziacik/nx-tools/compare/azure-func-0.2.0...azure-func-0.3.0
 [0.2.0]: https://github.com/ziacik/nx-tools/releases/tag/azure-func-0.2.0

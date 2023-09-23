@@ -1,6 +1,6 @@
 {
 	"name": "@ziacik/upgrade-verify",
-	"version": "0.0.4",
+	"version": "0.1.0",
 	"type": "commonjs",
 	"executors": "./executors.json",
 	"keywords": [
