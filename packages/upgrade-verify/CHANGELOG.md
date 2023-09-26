@@ -7,17 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.0.4] - 2023-07-24
+## [0.1.1] - 2023-09-26
 
-### Fixed
+### Changed
 
-- Package exports error fixed.
+- Upgraded nx to 16.9.1.
 
 ## [0.1.0] - 2023-09-23
 
 ### Changed
 
 - Upgraded nx to 16.9.0.
+
+## [0.0.4] - 2023-07-24
+
+### Fixed
+
+- Package exports error fixed.
 
 ## [0.0.3] - 2023-07-23
 
@@ -32,7 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - READMEs updated and props added to package.json.
 - A _Package subpath './package.json' is not defined by "exports"_ error hopefully fixed.
 
-[unreleased]: https://github.com/ziacik/nx-tools/compare/upgrade-verify-0.1.0...HEAD
+[unreleased]: https://github.com/ziacik/nx-tools/compare/upgrade-verify-0.1.1...HEAD
+[0.1.0]: https://github.com/ziacik/nx-tools/compare/upgrade-verify-0.1.0...upgrade-verify-0.1.1
 [0.1.0]: https://github.com/ziacik/nx-tools/compare/upgrade-verify-0.0.4...upgrade-verify-0.1.0
 [0.0.4]: https://github.com/ziacik/nx-tools/compare/upgrade-verify-0.0.3...upgrade-verify-0.0.4
 [0.0.3]: https://github.com/ziacik/nx-tools/compare/upgrade-verify-0.0.2...upgrade-verify-0.0.3
