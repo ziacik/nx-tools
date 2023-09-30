@@ -31,7 +31,7 @@ To publish the application to azure:
 
 ## Prerequisites
 
-For generating, there are not prerequisites.
+For generating, there are no prerequisites.
 
 For `serve`, a `func` cli has to be installed:
 

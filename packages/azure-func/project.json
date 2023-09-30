@@ -32,6 +32,11 @@
 						"input": "./packages/azure-func",
 						"glob": "executors.json",
 						"output": "."
+					},
+					{
+						"input": "./packages/azure-func",
+						"glob": "migrations.json",
+						"output": "."
 					}
 				]
 			}

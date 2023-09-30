@@ -140,7 +140,7 @@ function addProjectDependencies(tree: Tree): GeneratorCallback {
 	return addDependenciesToPackageJson(
 		tree,
 		{
-			'@azure/functions': '^4.0.0-alpha.13',
+			'@azure/functions': '^4.0.1',
 		},
 		{}
 	);
