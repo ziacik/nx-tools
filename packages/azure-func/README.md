@@ -1,7 +1,7 @@
 # Nx Azure Function Plugin
 
 This plugin provides generators and executors for Azure Functions.
-The plugin uses azure functions version 4 (which is currently in alpha, but working well).
+The plugin uses azure functions version 4.
 
 ## Installation
 
