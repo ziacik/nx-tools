@@ -16,27 +16,27 @@ export async function loadExistingDistStats(statsPath: string): Promise<Stat | u
 	}
 }
 
-export async function calculateDistStats(distDir: string): Promise<Stat> {
-	return getFolderStats(distDir, '');
+export async function calculateDistStats(distDir: string, removeHashes: boolean): Promise<Stat> {
+	return getFolderStats(distDir, '', removeHashes);
 }
 
-async function getFolderStats(root: string, relative: string): Promise<Stat> {
-	return calculateStats(root, relative);
+async function getFolderStats(root: string, relative: string, removeHashes: boolean): Promise<Stat> {
+	return calculateStats(root, relative, removeHashes);
 }
 
-async function calculateStats(root: string, relative: string): Promise<Stat> {
+async function calculateStats(root: string, relative: string, removeHashes: boolean): Promise<Stat> {
 	const path = join(root, relative);
 	const stats = await stat(path);
 
 	if (stats.isFile()) {
 		return {
-			name: relative,
+			name: removeHashes ? withHashRemoved(relative) : relative,
 			size: stats.size,
 			items: [],
 		};
 	} else if (stats.isDirectory()) {
 		const nestedFiles = await readdir(path);
-		const nestedStats = await Promise.all(nestedFiles.map((nestedFile) => calculateStats(join(root, relative), nestedFile)));
+		const nestedStats = await Promise.all(nestedFiles.map((nestedFile) => calculateStats(join(root, relative), nestedFile, removeHashes)));
 		return {
 			name: relative,
 			size: nestedStats.reduce((result, stat) => result + stat.size, 0),
@@ -45,4 +45,10 @@ async function calculateStats(root: string, relative: string): Promise<Stat> {
 	} else {
 		throw new Error('What: ' + path);
 	}
+}
+
+const HASH_REGEX = /\.[a-f0-9]{16}\./g;
+
+function withHashRemoved(fileName: string): string {
+	return fileName.replace(HASH_REGEX, '.');
 }

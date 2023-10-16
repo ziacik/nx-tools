@@ -4,16 +4,20 @@ import { promises as fsPromises } from 'fs';
 import { mkdir, readFile, writeFile } from 'fs/promises';
 import { resolve } from 'path';
 import * as DIFFERING_STATS from './__fixtures__/differing-stats.json';
+import * as EXPECTED_STATS_NOHASH from './__fixtures__/expected-stats-nohash.json';
 import * as EXPECTED_STATS from './__fixtures__/expected-stats.json';
 import executor from './executor';
 import { VerifyBuildExecutorSchema } from './schema';
 
-const options: VerifyBuildExecutorSchema = {};
-
 describe('VerifyBuild Executor', () => {
 	let context: ExecutorContext;
+	let options: VerifyBuildExecutorSchema;
 
 	beforeEach(() => {
+		options = {
+			removeHashes: false,
+		};
+
 		jest.spyOn(logger, 'info').mockImplementation();
 		jest.spyOn(fsPromises, 'writeFile').mockResolvedValue();
 		jest.spyOn(fsPromises, 'mkdir').mockResolvedValue(undefined);
@@ -69,6 +73,42 @@ describe('VerifyBuild Executor', () => {
 		expect(writeFile).toHaveBeenCalledWith(
 			resolve(__dirname, '../../../../..', 'packages/my-project/.stats/development.json'),
 			JSON.stringify(EXPECTED_STATS, null, '\t')
+		);
+	});
+
+	it('removes hashes from filenames if removeHashes is true', async () => {
+		options.removeHashes = true;
+		await executor(options, context);
+
+		expect(mkdir).toHaveBeenCalledWith(resolve(__dirname, '../../../../..', 'packages/my-project/.stats'));
+		expect(mkdir).toHaveBeenCalledTimes(1);
+
+		expect(writeFile).toHaveBeenCalledWith(
+			resolve(__dirname, '../../../../..', 'packages/my-project/.stats/production.json'),
+			JSON.stringify(EXPECTED_STATS_NOHASH, null, '\t')
+		);
+
+		expect(writeFile).toHaveBeenCalledWith(
+			resolve(__dirname, '../../../../..', 'packages/my-project/.stats/development.json'),
+			JSON.stringify(EXPECTED_STATS_NOHASH, null, '\t')
+		);
+	});
+
+	it('removes hashes by default (if removeHashes is not set)', async () => {
+		delete options.removeHashes;
+		await executor(options, context);
+
+		expect(mkdir).toHaveBeenCalledWith(resolve(__dirname, '../../../../..', 'packages/my-project/.stats'));
+		expect(mkdir).toHaveBeenCalledTimes(1);
+
+		expect(writeFile).toHaveBeenCalledWith(
+			resolve(__dirname, '../../../../..', 'packages/my-project/.stats/production.json'),
+			JSON.stringify(EXPECTED_STATS_NOHASH, null, '\t')
+		);
+
+		expect(writeFile).toHaveBeenCalledWith(
+			resolve(__dirname, '../../../../..', 'packages/my-project/.stats/development.json'),
+			JSON.stringify(EXPECTED_STATS_NOHASH, null, '\t')
 		);
 	});
 

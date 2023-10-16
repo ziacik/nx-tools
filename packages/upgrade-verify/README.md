@@ -1,6 +1,6 @@
 # Nx Upgrade Verify Plugin
 
-This plugin provides functionality to verify the build of a project after NX upgrade by comparing distribution statistics and detecting any significant differences.
+This plugin provides functionality to verify the build of a project after NX upgrade by comparing dist file statistics and detecting any significant differences.
 
 On each run, the executor builds the project for each configuration from the build target. At the first run, the executor generates stats in the `.stats` directory of the project from the built files.
 
@@ -9,8 +9,6 @@ At every subsequent run, the executor compares the current saved stats with the 
 The stats can be committed to the repository for future use.
 
 If the percentage differences cross a threshold of 10%, the executor will report a failure.
-
-Please note that the plugin is in the early development stage and configuration options will be added in future updates.
 
 ## Installation
 
@@ -30,7 +28,10 @@ Once the plugin is installed, you can use it as a custom executor in your projec
 	...
 	"targets": {
 		"verify-build": {
-			"executor": "@ziacik/upgrade-verify:verify-build"
+			"executor": "@ziacik/upgrade-verify:verify-build",
+			"options": {
+				"removeHashes": true
+			}
 		},
 		...
 	},

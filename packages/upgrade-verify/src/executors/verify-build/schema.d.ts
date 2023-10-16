@@ -1,1 +1,3 @@
-export interface VerifyBuildExecutorSchema {} // eslint-disable-line
+export interface VerifyBuildExecutorSchema {
+	removeHashes?: boolean;
+}

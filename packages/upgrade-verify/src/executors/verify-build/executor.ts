@@ -36,7 +36,7 @@ export default async function verifyBuild(options: VerifyBuildExecutorSchema, co
 		retainEnv(envBackup);
 		const runContext: ExecutorContext = JSON.parse(JSON.stringify(context));
 
-		const result = await runExecutor(
+		const results = await runExecutor(
 			{
 				project: runContext.projectName ?? '',
 				target: 'build',
@@ -46,15 +46,15 @@ export default async function verifyBuild(options: VerifyBuildExecutorSchema, co
 			runContext
 		);
 
-		for await (const x of result) {
-			if (!x.success) {
+		for await (const result of results) {
+			if (!result.success) {
 				return { success: false };
 			}
 		}
 
 		const statsPath = join(statsDir, configurationName + '.json');
 		const existingStats = await loadExistingDistStats(statsPath);
-		const newStats = await calculateDistStats(distDir);
+		const newStats = await calculateDistStats(distDir, options.removeHashes ?? true);
 
 		await writeFile(statsPath, JSON.stringify(newStats, null, '\t'));
 
