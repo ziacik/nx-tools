@@ -4,6 +4,12 @@
 	"title": "VerifyBuild executor",
 	"description": "",
 	"type": "object",
-	"properties": {},
+	"properties": {
+		"removeHashes": {
+			"type": "boolean",
+			"description": "If true, remove hashes from file names. The hash part is detected by heuristics.",
+			"default": true
+		}
+	},
 	"required": []
 }
