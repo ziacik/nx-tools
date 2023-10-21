@@ -7,11 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.0.0] - 2023-10-16
+## [1.0.0] - 2023-10-21
 
 ## Added
 
 - `removeHashes` option added to the `verify-build` executor, with a default of `true`, which removes hashes from file names, making the comparisons more deterministic.
+- `check-issues` executor added.
 
 ## [0.2.0] - 2023-10-15
 
