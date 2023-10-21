@@ -7,9 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2023-10-21
+
+### Fixed
+
+- Fixed the "Package subpath './package.json' is not defined by "exports"" error. #20
+
 ## [1.0.0] - 2023-10-21
 
-## Added
+### Added
 
 - `removeHashes` option added to the `verify-build` executor, with a default of `true`, which removes hashes from file names, making the comparisons more deterministic.
 - `check-issues` executor added.
@@ -51,7 +57,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - READMEs updated and props added to package.json.
 - A _Package subpath './package.json' is not defined by "exports"_ error hopefully fixed.
 
-[unreleased]: https://github.com/ziacik/nx-tools/compare/upgrade-verify-1.0.0...HEAD
+[unreleased]: https://github.com/ziacik/nx-tools/compare/upgrade-verify-1.0.1...HEAD
+[1.0.1]: https://github.com/ziacik/nx-tools/compare/upgrade-verify-1.0.0...upgrade-verify-1.0.1
 [1.0.0]: https://github.com/ziacik/nx-tools/compare/upgrade-verify-0.2.0...upgrade-verify-1.0.0
 [0.2.0]: https://github.com/ziacik/nx-tools/compare/upgrade-verify-0.1.1...upgrade-verify-0.2.0
 [0.1.1]: https://github.com/ziacik/nx-tools/compare/upgrade-verify-0.1.0...upgrade-verify-0.1.1

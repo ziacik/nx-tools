@@ -14,6 +14,14 @@
 	"typings": "./src/index.d.ts",
 	"generators": "./generators.json",
 	"author": "František Žiačik",
+	"keywords": [
+		"nx",
+		"azure-func",
+		"azure",
+		"functions",
+		"azure functions",
+		"plugin"
+	],
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/ziacik/nx-tools",
