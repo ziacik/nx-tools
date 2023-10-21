@@ -4,6 +4,11 @@
 			"implementation": "./src/executors/verify-build/executor",
 			"schema": "./src/executors/verify-build/schema.json",
 			"description": "Verifies that the build does not differ too much from the previous one after NX upgrade. Or, if this is the first run, creates stats for future verifications."
+		},
+		"check-issues": {
+			"implementation": "./src/executors/check-issues/executor",
+			"schema": "./src/executors/check-issues/schema.json",
+			"description": "Checks a list of issue links to see if they have been closed already."
 		}
 	}
 }

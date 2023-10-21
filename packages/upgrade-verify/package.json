@@ -22,5 +22,8 @@
 		".": {
 			"require": "./package.json"
 		}
+	},
+	"dependencies": {
+		"@nx/devkit": "16.10.0"
 	}
 }
