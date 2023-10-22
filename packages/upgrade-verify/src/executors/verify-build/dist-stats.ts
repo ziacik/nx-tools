@@ -1,5 +1,6 @@
 import { readFile, readdir, stat } from 'fs/promises';
 import { join } from 'path';
+import { withHashRemoved } from './with-hash-removed';
 
 export type Stat = {
 	readonly name: string;
@@ -40,15 +41,9 @@ async function calculateStats(root: string, relative: string, removeHashes: bool
 		return {
 			name: relative,
 			size: nestedStats.reduce((result, stat) => result + stat.size, 0),
-			items: nestedStats,
+			items: nestedStats.sort((a, b) => a.name.localeCompare(b.name)),
 		};
 	} else {
 		throw new Error('What: ' + path);
 	}
-}
-
-const HASH_REGEX = /\.[a-f0-9]{16}\./g;
-
-function withHashRemoved(fileName: string): string {
-	return fileName.replace(HASH_REGEX, '.');
 }

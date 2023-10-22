@@ -9,7 +9,7 @@
 		{ "name": "main.css", "size": 6168, "items": [] },
 		{ "name": "main.js", "size": 18760, "items": [] },
 		{ "name": "runtime.js", "size": 2109, "items": [] },
-		{ "name": "styles.js", "size": 176, "items": [] },
-		{ "name": "styles.css", "size": 0, "items": [] }
+		{ "name": "styles.css", "size": 0, "items": [] },
+		{ "name": "styles.js", "size": 176, "items": [] }
 	]
 }

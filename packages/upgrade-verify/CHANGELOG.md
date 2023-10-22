@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fixed the "Package subpath './package.json' is not defined by "exports"" error. #20
+- Generated stats are now properly sorted when remove hashes option is used. #19
 
 ## [1.0.0] - 2023-10-21
 
