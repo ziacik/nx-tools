@@ -1,13 +1,13 @@
 {
 	"name": "@ziacik/azure-func",
-	"version": "1.2.0",
+	"version": "1.3.0",
 	"dependencies": {
-		"@nx/devkit": "16.10.0",
-		"@nx/js": "16.10.0",
-		"@nx/linter": "16.10.0",
-		"@nx/node": "16.10.0",
-		"@swc/helpers": "~0.5.0",
-		"typescript": "~5.1.3"
+		"@nx/devkit": "17.0.1",
+		"@nx/js": "17.0.1",
+		"@nx/eslint": "17.0.1",
+		"@nx/node": "17.0.1",
+		"typescript": "~5.1.3",
+		"@swc/helpers": "0.5.2"
 	},
 	"type": "commonjs",
 	"main": "./src/index.js",

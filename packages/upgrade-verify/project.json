@@ -41,7 +41,7 @@
 			"dependsOn": ["build"]
 		},
 		"lint": {
-			"executor": "@nx/linter:eslint",
+			"executor": "@nx/eslint:lint",
 			"outputs": ["{options.outputFile}"],
 			"options": {
 				"lintFilePatterns": ["packages/upgrade-verify/**/*.ts", "packages/upgrade-verify/package.json", "packages/upgrade-verify/executors.json"]

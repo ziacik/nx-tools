@@ -109,7 +109,7 @@ describe('application generator', () => {
 		});
 
 		expect(project.targets?.['lint']).toStrictEqual({
-			executor: '@nx/linter:eslint',
+			executor: '@nx/eslint:lint',
 			outputs: ['{options.outputFile}'],
 			options: {
 				lintFilePatterns: ['my-function-app/**/*.ts'],
