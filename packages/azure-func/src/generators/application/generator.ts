@@ -16,7 +16,7 @@ import {
 } from '@nx/devkit';
 import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
 import { getRelativePathToRootTsConfig } from '@nx/js';
-import { Linter } from '@nx/linter';
+import { Linter } from '@nx/eslint';
 import { applicationGenerator as nodeApplicationGenerator } from '@nx/node';
 import { join } from 'path';
 import functionGenerator from '../function/generator';

@@ -1,7 +1,6 @@
 import { ExecutorContext, logger, runExecutor } from '@nx/devkit';
 import { mkdir, writeFile } from 'fs/promises';
 import { join } from 'path';
-import { env } from 'process';
 import { compareStats } from './dist-stat-comparer';
 import { calculateDistStats, loadExistingDistStats } from './dist-stats';
 import { VerifyBuildExecutorSchema } from './schema';
@@ -30,7 +29,7 @@ export default async function verifyBuild(options: VerifyBuildExecutorSchema, co
 	}
 
 	let success = true;
-	const envBackup = { ...env };
+	const envBackup = { ...process.env };
 
 	for (const configurationName of Object.keys(projectConfig.targets['build'].configurations)) {
 		retainEnv(envBackup);
@@ -87,8 +86,8 @@ async function tryMkdir(statsDir: string) {
 }
 
 function retainEnv(envBackup: Record<string, unknown>): void {
-	for (const key of Object.keys(env)) {
-		delete env[key];
+	for (const key of Object.keys(process.env)) {
+		delete process.env[key];
 	}
-	Object.assign(env, envBackup);
+	Object.assign(process.env, envBackup);
 }

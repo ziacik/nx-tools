@@ -2,3 +2,4 @@
 /dist
 /coverage
 /packages/upgrade-verify/src/executors/verify-build/__fixtures__
+/.nx/cache
