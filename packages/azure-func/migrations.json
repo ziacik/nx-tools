@@ -8,6 +8,15 @@
 					"alwaysAddToPackageJson": false
 				}
 			}
+		},
+		"1.4.0": {
+			"version": "1.4.0",
+			"packages": {
+				"@azure/functions": {
+					"version": "^4.1.0",
+					"alwaysAddToPackageJson": false
+				}
+			}
 		}
 	}
 }
