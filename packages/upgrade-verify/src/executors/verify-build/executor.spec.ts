@@ -177,7 +177,7 @@ describe('VerifyBuild Executor', () => {
 	});
 
 	it('isolates build runs from process env modifications (but retains the originals)', async () => {
-		jest.spyOn(devkit, 'runExecutor').mockImplementation(async (targetDescription, overrides, context) => {
+		jest.spyOn(devkit, 'runExecutor').mockImplementation(async () => {
 			if (process.env['something'] === 'should-not-retain-this') {
 				throw new Error('Env is modified from previous run.');
 			}
