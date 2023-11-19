@@ -15,8 +15,8 @@ import {
 	updateProjectConfiguration,
 } from '@nx/devkit';
 import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
-import { getRelativePathToRootTsConfig } from '@nx/js';
 import { Linter } from '@nx/eslint';
+import { getRelativePathToRootTsConfig } from '@nx/js';
 import { applicationGenerator as nodeApplicationGenerator } from '@nx/node';
 import { join } from 'path';
 import functionGenerator from '../function/generator';
@@ -140,7 +140,7 @@ function addProjectDependencies(tree: Tree): GeneratorCallback {
 	return addDependenciesToPackageJson(
 		tree,
 		{
-			'@azure/functions': '^4.0.1',
+			'@azure/functions': '^4.1.0',
 		},
 		{}
 	);
