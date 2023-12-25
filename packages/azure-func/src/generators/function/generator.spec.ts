@@ -11,7 +11,7 @@ describe('function generator', () => {
 
 	beforeEach(async () => {
 		tree = createTreeWithEmptyWorkspace();
-		await applicationGenerator(tree, { name: 'my-func-app' });
+		await applicationGenerator(tree, { name: 'my-func-app', directory: 'my-func-app', projectNameAndRootFormat: 'as-provided' });
 	});
 
 	it('should generate a function file', async () => {
