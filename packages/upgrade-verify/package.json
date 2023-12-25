@@ -2,7 +2,7 @@
 	"name": "@ziacik/upgrade-verify",
 	"version": "1.2.0",
 	"dependencies": {
-		"@nx/devkit": "17.1.2",
+		"@nx/devkit": "17.2.7",
 		"@swc/helpers": "0.5.2"
 	},
 	"type": "commonjs",

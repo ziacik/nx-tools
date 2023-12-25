@@ -2,9 +2,6 @@
 	"eslint.validate": ["json"],
 	"editor.formatOnPaste": true,
 	"editor.formatOnSave": true,
-	"editor.codeActionsOnSave": {
-		"source.organizeImports": true
-	},
 	"editor.renderWhitespace": "boundary",
 	"[typescript]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
