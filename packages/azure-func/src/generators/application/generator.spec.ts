@@ -12,7 +12,9 @@ describe('application generator', () => {
 
 	it('should install azure func dependencies', async () => {
 		await applicationGenerator(tree, {
-			name: 'myFunctionApp',
+			name: 'my-function-app',
+			directory: 'my-function-app',
+			projectNameAndRootFormat: 'as-provided',
 		});
 
 		const packageJson = readJson(tree, 'package.json');
@@ -25,7 +27,9 @@ describe('application generator', () => {
 
 	it('should update project config', async () => {
 		await applicationGenerator(tree, {
-			name: 'myFunctionApp',
+			name: 'my-function-app',
+			directory: 'my-function-app',
+			projectNameAndRootFormat: 'as-provided',
 		});
 
 		const project = readProjectConfiguration(tree, 'my-function-app');
@@ -118,7 +122,9 @@ describe('application generator', () => {
 
 	it('should update tags', async () => {
 		await applicationGenerator(tree, {
-			name: 'myFunctionApp',
+			name: 'my-function-app',
+			directory: 'my-function-app',
+			projectNameAndRootFormat: 'as-provided',
 			tags: 'one,two',
 		});
 		const projects = Object.fromEntries(getProjects(tree));
@@ -131,7 +137,9 @@ describe('application generator', () => {
 
 	it('should generate files', async () => {
 		await applicationGenerator(tree, {
-			name: 'myFunctionApp',
+			name: 'my-function-app',
+			directory: 'my-function-app',
+			projectNameAndRootFormat: 'as-provided',
 		});
 		expect(tree.exists(`my-function-app/jest.config.ts`)).toBeTruthy();
 		expect(tree.exists('my-function-app/src/main.ts')).toBeTruthy();
@@ -213,7 +221,9 @@ describe('application generator', () => {
 		tree.rename('tsconfig.base.json', 'tsconfig.json');
 
 		await applicationGenerator(tree, {
-			name: 'myFunctionApp',
+			name: 'my-function-app',
+			directory: 'my-function-app',
+			projectNameAndRootFormat: 'as-provided',
 		});
 
 		const tsconfig = readJson(tree, 'my-function-app/tsconfig.json');
@@ -222,7 +232,9 @@ describe('application generator', () => {
 
 	it('should generate strict by default', async () => {
 		await applicationGenerator(tree, {
-			name: 'myFunctionApp',
+			name: 'my-function-app',
+			directory: 'my-function-app',
+			projectNameAndRootFormat: 'as-provided',
 		});
 
 		const tsconfig = readJson(tree, 'my-function-app/tsconfig.json');
@@ -239,7 +251,9 @@ describe('application generator', () => {
 
 	it('can generate non-strict', async () => {
 		await applicationGenerator(tree, {
-			name: 'myFunctionApp',
+			name: 'my-function-app',
+			directory: 'my-function-app',
+			projectNameAndRootFormat: 'as-provided',
 			strict: false,
 		});
 
@@ -251,7 +265,9 @@ describe('application generator', () => {
 
 	it('can set custom azureAppName', async () => {
 		await applicationGenerator(tree, {
-			name: 'myFunctionApp',
+			name: 'my-function-app',
+			directory: 'my-function-app',
+			projectNameAndRootFormat: 'as-provided',
 			azureAppName: 'my-custom-app',
 		});
 
