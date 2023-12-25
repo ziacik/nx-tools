@@ -111,9 +111,6 @@ describe('application generator', () => {
 		expect(project.targets?.['lint']).toStrictEqual({
 			executor: '@nx/eslint:lint',
 			outputs: ['{options.outputFile}'],
-			options: {
-				lintFilePatterns: ['my-function-app/**/*.ts'],
-			},
 		});
 
 		expect(() => readProjectConfiguration(tree, 'my-function-app-e2e')).not.toThrow();
