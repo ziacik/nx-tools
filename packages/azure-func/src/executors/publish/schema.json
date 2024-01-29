@@ -11,7 +11,7 @@
 		},
 		"projectLanguage": {
 			"type": "string",
-			"description": "the language used in the project. can be optionally set situations where language cannot be infered during publish."
+			"description": "the language used in the project. can be optionally set if language cannot be infered during publish."
 		},
 		"buildTarget": {
 			"type": "string",
