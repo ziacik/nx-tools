@@ -1,9 +1,10 @@
 import { logger } from '@nx/devkit';
-import { SpawnSyncOptions, spawnSync } from 'child_process';
+import { SpawnSyncOptions } from 'child_process';
+import { sync } from 'cross-spawn';
 
 export function spawnSyncChecked(command: string, args?: ReadonlyArray<string>, options?: SpawnSyncOptions, enoentMessage?: string): { success: boolean } {
 	try {
-		const { status, error } = spawnSync(command, args, options);
+		const { status, error } = sync(command, args, options);
 
 		if (error) {
 			logError(enoentMessage, error);

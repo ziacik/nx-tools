@@ -9,6 +9,10 @@
 			"type": "string",
 			"description": "Name of the remote Azure Function App on Azure. If not set, application name will be used."
 		},
+		"projectLanguage": {
+			"type": "string",
+			"description": "the language used in the project. can be optionally set situations where language cannot be infered during publish."
+		},
 		"buildTarget": {
 			"type": "string",
 			"description": "The target to run to build you the app."

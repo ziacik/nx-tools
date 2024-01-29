@@ -27,7 +27,7 @@ export default async function runPublishExecutor(options: PublishExecutorSchema,
 	}
 
 	const azureAppName = options.azureAppName ?? context.projectName;
-
+	const projectLanguage = options.projectLanguage ? `--${options.projectLanguage}` : ''
 	if (!azureAppName) {
 		logger.error(
 			'Unable to determine Azure Function App name for publishing because projectName is undefined or empty. Please set azureAppName option explicitly.'
@@ -37,7 +37,7 @@ export default async function runPublishExecutor(options: PublishExecutorSchema,
 		};
 	}
 
-	return publishDist(distDir, azureAppName);
+	return publishDist(distDir, azureAppName,projectLanguage);
 }
 
 function buildDependenciesInDist(distDir: string): { success: boolean } {
@@ -47,10 +47,10 @@ function buildDependenciesInDist(distDir: string): { success: boolean } {
 	});
 }
 
-function publishDist(distDir: string, azureAppName: string): { success: boolean } {
+function publishDist(distDir: string, azureAppName: string, projectLanguage: string): { success: boolean } {
 	return spawnSyncChecked(
 		'func',
-		['azure', 'functionapp', 'publish', azureAppName],
+		['azure', 'functionapp', 'publish', azureAppName, projectLanguage],
 		{
 			cwd: distDir,
 			stdio: 'inherit',
