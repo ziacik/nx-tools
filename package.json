@@ -41,6 +41,7 @@
 	"dependencies": {
 		"@nx/devkit": "17.2.7",
 		"@swc/helpers": "0.5.2",
+		"cross-spawn": "^7.0.3",
 		"tslib": "^2.3.0"
 	}
 }
