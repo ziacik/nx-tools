@@ -4,6 +4,7 @@ import type { Linter } from '@nx/eslint';
 export interface ApplicationGeneratorSchema {
 	name: string;
 	azureAppName?: string;
+	projectLanguage?: string;
 	strict?: boolean;
 	skipFormat?: boolean;
 	directory?: string;

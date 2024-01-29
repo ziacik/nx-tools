@@ -79,6 +79,7 @@ function adjustProjectConfig(tree: Tree, normalizedOptions: NormalizedSchema): P
 				options: {
 					...generatedProjectConfig.targets?.['serve'].options,
 					azureAppName: normalizedOptions.azureAppName,
+					projectLanguage: normalizedOptions.projectLanguage,
 				},
 				dependsOn: ['build'],
 			},

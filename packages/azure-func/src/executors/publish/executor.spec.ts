@@ -4,6 +4,7 @@ import * as childProcess from 'child_process';
 import executor from './executor';
 import { PublishExecutorSchema } from './schema';
 
+beforeAll(() => {});
 describe('Publish Executor', () => {
 	let context: ExecutorContext;
 	let options: PublishExecutorSchema;
@@ -63,6 +64,7 @@ describe('Publish Executor', () => {
 
 		options = {
 			azureAppName: 'some-azure-app',
+			projectLanguage: 'typescript',
 			buildTarget: 'my-app:build:production',
 			buildTargetOptions: {
 				some: 'build-option',
@@ -77,8 +79,13 @@ describe('Publish Executor', () => {
 			outputPath: `/some/path/dist/${target.project}`,
 		}));
 
-		jest.spyOn(childProcess, 'spawnSync').mockImplementation((command) => {
-			const result = command === 'npm' ? npmProcessResult : command === 'func' ? funcProcessResult : 'terminate';
+		jest.spyOn(childProcess, 'spawnSync').mockImplementation((command, args) => {
+			let result = '';
+			if (process.platform === 'win32') {
+				result = args?.some((arg) => arg.includes('npm')) ? npmProcessResult : command === 'func' ? funcProcessResult : 'terminate';
+			} else {
+				result = command === 'npm' ? npmProcessResult : command === 'func' ? funcProcessResult : 'terminate';
+			}
 
 			if (result === 'succeed') {
 				return { pid: 123, status: 0, output: [], stdout: '', stderr: '', signal: null };
@@ -129,13 +136,30 @@ describe('Publish Executor', () => {
 	});
 
 	it('installs dependencies in the dist dir after build', async () => {
+		const expectedCwd = process.platform === 'win32' ? '\\root\\some\\path\\dist\\my-app' : '/root/some/path/dist/my-app';
+
 		buildWill('succeed');
 		npmProcessWill('fail');
 		await executor(options, context);
-		expect(childProcess.spawnSync).toHaveBeenCalledWith('npm', ['install', '--omit=dev'], {
-			cwd: '/root/some/path/dist/my-app',
-			stdio: 'inherit',
-		});
+		if (process.platform === 'win32') {
+			expect(childProcess.spawnSync).toHaveBeenCalledWith(
+				expect.anything(),
+				expect.arrayContaining(['"npm ^"install^" ^"--omit=dev^""']),
+				expect.objectContaining({
+					cwd: expectedCwd,
+					stdio: 'inherit',
+				})
+			);
+		} else {
+			expect(childProcess.spawnSync).toHaveBeenCalledWith(
+				'npm',
+				['install', '--omit=dev'],
+				expect.objectContaining({
+					cwd: expectedCwd,
+					stdio: 'inherit',
+				})
+			);
+		}
 	});
 
 	it('if installing dependencies fails, we fail', async () => {
@@ -158,31 +182,63 @@ describe('Publish Executor', () => {
 		buildWill('succeed');
 		npmProcessWill('fail');
 		await executor(options, context);
-		expect(childProcess.spawnSync).toHaveBeenCalledWith('npm', expect.anything(), expect.anything());
+
+		if (process.platform === 'win32') {
+			expect(childProcess.spawnSync).toHaveBeenCalledWith(expect.anything(), expect.arrayContaining([expect.stringContaining('npm')]), expect.anything());
+		} else {
+			expect(childProcess.spawnSync).toHaveBeenCalledWith('npm', expect.anything(), expect.anything());
+		}
 		expect(childProcess.spawnSync).not.toHaveBeenCalledWith('func', expect.anything(), expect.anything());
 	});
 
 	it('runs func to publish the app to azure', async () => {
+		const expectedCwd = process.platform === 'win32' ? '\\root\\some\\path\\dist\\my-app' : '/root/some/path/dist/my-app';
 		buildWill('succeed');
 		npmProcessWill('succeed');
 		funcProcessWill('succeed');
 		await executor(options, context);
-		expect(childProcess.spawnSync).toHaveBeenCalledWith('func', ['azure', 'functionapp', 'publish', 'some-azure-app'], {
-			cwd: '/root/some/path/dist/my-app',
-			stdio: 'inherit',
-		});
+		expect(childProcess.spawnSync).toHaveBeenCalledWith(
+			'func',
+			['azure', 'functionapp', 'publish', 'some-azure-app', '--typescript'],
+			expect.objectContaining({
+				cwd: expectedCwd,
+				stdio: 'inherit',
+			})
+		);
 	});
 
 	it('will use application name if azureAppName option is not set', async () => {
+		const expectedCwd = process.platform === 'win32' ? '\\root\\some\\path\\dist\\my-app' : '/root/some/path/dist/my-app';
 		buildWill('succeed');
 		npmProcessWill('succeed');
 		funcProcessWill('succeed');
 		delete options.azureAppName;
 		await executor(options, context);
-		expect(childProcess.spawnSync).toHaveBeenCalledWith('func', ['azure', 'functionapp', 'publish', 'my-app'], {
-			cwd: '/root/some/path/dist/my-app',
-			stdio: 'inherit',
-		});
+		expect(childProcess.spawnSync).toHaveBeenCalledWith(
+			'func',
+			['azure', 'functionapp', 'publish', 'my-app', '--typescript'],
+			expect.objectContaining({
+				cwd: expectedCwd,
+				stdio: 'inherit',
+			})
+		);
+	});
+
+	it('will default to no language arg the option is not set', async () => {
+		const expectedCwd = process.platform === 'win32' ? '\\root\\some\\path\\dist\\my-app' : '/root/some/path/dist/my-app';
+		buildWill('succeed');
+		npmProcessWill('succeed');
+		funcProcessWill('succeed');
+		delete options.projectLanguage;
+		await executor(options, context);
+		expect(childProcess.spawnSync).toHaveBeenCalledWith(
+			'func',
+			expect.arrayContaining(['azure', 'functionapp', 'publish', 'some-azure-app', '']),
+			expect.objectContaining({
+				cwd: expectedCwd,
+				stdio: 'inherit',
+			})
+		);
 	});
 
 	it('if publish terminates, we fail', async () => {

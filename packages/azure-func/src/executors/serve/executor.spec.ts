@@ -149,11 +149,16 @@ describe('Serve Executor', () => {
 	});
 
 	it('after the first build success, starts the func in the dist directory', async () => {
+		const expectedCwd = process.platform === 'win32' ? '\\root\\some\\path\\dist\\my-app' : '/root/some/path/dist/my-app';
 		buildWill('fail', 'fail', 'succeed');
 		await expectNotResolving(executor(options, context));
-		expect(childProcess.spawn).toHaveBeenCalledWith('func', ['host', 'start', '--language-worker', '--', '--inspect=9229'], {
-			cwd: '/root/some/path/dist/my-app',
-		});
+		expect(childProcess.spawn).toHaveBeenCalledWith(
+			'func',
+			['host', 'start', '--language-worker', '--', '--inspect=9229'],
+			expect.objectContaining({
+				cwd: expectedCwd,
+			})
+		);
 	});
 
 	it('if the func start terminates, we fail', async () => {

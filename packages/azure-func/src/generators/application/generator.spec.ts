@@ -274,4 +274,16 @@ describe('application generator', () => {
 		const project = readProjectConfiguration(tree, 'my-function-app');
 		expect(project.targets?.['publish'].options.azureAppName).toStrictEqual('my-custom-app');
 	});
+
+	it('can set custom projectLanguage', async () => {
+		await applicationGenerator(tree, {
+			name: 'my-function-app',
+			directory: 'my-function-app',
+			projectNameAndRootFormat: 'as-provided',
+			projectLanguage: 'typescript',
+		});
+
+		const project = readProjectConfiguration(tree, 'my-function-app');
+		expect(project.targets?.['publish'].options.projectLanguage).toStrictEqual('typescript');
+	});
 });
