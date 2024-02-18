@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Upgraded nx to 18.0.4.
+- Upgraded @azure/functions to 4.2.0.
 
 ## [1.5.0] - 2023-12-25
 

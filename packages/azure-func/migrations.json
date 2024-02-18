@@ -17,6 +17,15 @@
 					"alwaysAddToPackageJson": false
 				}
 			}
+		},
+		"2.0.0": {
+			"version": "2.0.0",
+			"packages": {
+				"@azure/functions": {
+					"version": "^4.2.0",
+					"alwaysAddToPackageJson": false
+				}
+			}
 		}
 	}
 }
