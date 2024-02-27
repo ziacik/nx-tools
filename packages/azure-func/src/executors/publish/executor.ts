@@ -20,7 +20,7 @@ export default async function runPublishExecutor(options: PublishExecutorSchema,
 	const buildOptions = getBuildOptions(buildTarget, options, context);
 	const distDir = join(context.root, buildOptions.outputPath);
 
-	const npmResult = buildDependenciesInDist(distDir);
+	const npmResult = installDependenciesInDist(distDir);
 
 	if (!npmResult.success) {
 		return npmResult;
@@ -40,7 +40,7 @@ export default async function runPublishExecutor(options: PublishExecutorSchema,
 	return publishDist(distDir, azureAppName);
 }
 
-function buildDependenciesInDist(distDir: string): { success: boolean } {
+function installDependenciesInDist(distDir: string): { success: boolean } {
 	return spawnSyncChecked('npm', ['install', '--omit=dev'], {
 		cwd: distDir,
 		stdio: 'inherit',
