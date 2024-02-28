@@ -133,7 +133,8 @@ describe('Publish Executor', () => {
 		npmProcessWill('fail');
 		await executor(options, context);
 		expect(childProcess.spawnSync).toHaveBeenCalledWith('npm', ['install', '--omit=dev'], {
-			cwd: '/root/some/path/dist/my-app',
+			cwd: expect.stringMatching(/dist(\\|\/)my-app/),
+			shell: true,
 			stdio: 'inherit',
 		});
 	});
@@ -168,7 +169,7 @@ describe('Publish Executor', () => {
 		funcProcessWill('succeed');
 		await executor(options, context);
 		expect(childProcess.spawnSync).toHaveBeenCalledWith('func', ['azure', 'functionapp', 'publish', 'some-azure-app'], {
-			cwd: '/root/some/path/dist/my-app',
+			cwd: expect.stringMatching(/dist(\\|\/)my-app/),
 			stdio: 'inherit',
 		});
 	});
@@ -180,7 +181,7 @@ describe('Publish Executor', () => {
 		delete options.azureAppName;
 		await executor(options, context);
 		expect(childProcess.spawnSync).toHaveBeenCalledWith('func', ['azure', 'functionapp', 'publish', 'my-app'], {
-			cwd: '/root/some/path/dist/my-app',
+			cwd: expect.stringMatching(/dist(\\|\/)my-app/),
 			stdio: 'inherit',
 		});
 	});

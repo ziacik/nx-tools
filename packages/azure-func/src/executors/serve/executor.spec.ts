@@ -152,7 +152,7 @@ describe('Serve Executor', () => {
 		buildWill('fail', 'fail', 'succeed');
 		await expectNotResolving(executor(options, context));
 		expect(childProcess.spawn).toHaveBeenCalledWith('func', ['host', 'start', '--language-worker', '--', '--inspect=9229'], {
-			cwd: '/root/some/path/dist/my-app',
+			cwd: expect.stringMatching(/dist(\\|\/)my-app/),
 		});
 	});
 

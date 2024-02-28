@@ -44,6 +44,7 @@ function installDependenciesInDist(distDir: string): { success: boolean } {
 	return spawnSyncChecked('npm', ['install', '--omit=dev'], {
 		cwd: distDir,
 		stdio: 'inherit',
+		shell: true,
 	});
 }
 
