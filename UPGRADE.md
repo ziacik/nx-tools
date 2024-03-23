@@ -1,18 +1,19 @@
 # To upgrade to current NX
 
 - `export NX_VER=18.0.4`
-- `git checkout -b git checkout -b chore/nx-upgrade-$NX_VER`
+- `git checkout -b chore/nx-upgrade-$NX_VER`
+- `npx nx migrate latest`
 - `npm i`
 - `npx nx migrate --run-migrations`
-- `nx format`
+- `npx nx format`
 - `git commit -am "chore: nx upgrate to $NX_VER"`
 - inspect `npm outdated`
 - `npm update`
 - `git commit -am "chore: deps updated"`
-- `nx affected:lint`
-- `nx affected:lint --fix`
-- `nx affected:test`
-- `nx affected:e2e`
+- `npx nx affected:lint`
+- `npx nx affected:lint --fix`
+- `npx nx affected:test`
+- `npx nx affected:e2e`
 - `git commit -am "chore: fix lint and tests"`
 - update versions of packages - minor / major according to NX (?)
 - add changes to CHANGELOGs
@@ -26,7 +27,7 @@ If needed:
 - check if any changes to generated functions needed
 - add to [migrations.json](packages/azure-func/migrations.json)
 - add info to changelog
-- `nx affected:test`
+- `npx nx affected:test`
 - `git commit -am "feat(azure-func): upgrade @azure/functions to ???"`
 
 To publish:
