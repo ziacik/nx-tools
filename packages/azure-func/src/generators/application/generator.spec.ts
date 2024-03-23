@@ -20,7 +20,7 @@ describe('application generator', () => {
 		const packageJson = readJson(tree, 'package.json');
 		expect(packageJson).toMatchObject({
 			dependencies: {
-				'@azure/functions': '^4.2.0',
+				'@azure/functions': '^4.3.0',
 			},
 		});
 	});
