@@ -1,6 +1,6 @@
 {
 	"name": "@ziacik/azure-func",
-	"version": "2.1.0",
+	"version": "3.0.0",
 	"dependencies": {
 		"@nx/devkit": "19.0.2",
 		"@nx/js": "19.0.2",
