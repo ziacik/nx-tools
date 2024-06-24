@@ -3,3 +3,5 @@
 /coverage
 /packages/upgrade-verify/src/executors/verify-build/__fixtures__
 /.nx/cache
+
+/.nx/workspace-data
