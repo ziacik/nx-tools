@@ -82,8 +82,10 @@ describe('application generator', () => {
 		expect(project.targets?.['serve']).toStrictEqual({
 			executor: '@ziacik/azure-func:serve',
 			defaultConfiguration: 'development',
+			dependsOn: ['build'],
 			options: {
 				buildTarget: 'my-function-app:build',
+				runBuildTargetDependencies: false,
 			},
 			configurations: {
 				development: {
@@ -100,6 +102,7 @@ describe('application generator', () => {
 			defaultConfiguration: 'production',
 			options: {
 				buildTarget: 'my-function-app:build',
+				runBuildTargetDependencies: false,
 			},
 			configurations: {
 				development: {

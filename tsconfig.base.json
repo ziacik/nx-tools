@@ -9,7 +9,7 @@
 		"experimentalDecorators": true,
 		"importHelpers": true,
 		"isolatedModules": true,
-		"target": "es2015",
+		"target": "es2018",
 		"module": "esnext",
 		"lib": ["es2020", "dom"],
 		"skipLibCheck": true,
