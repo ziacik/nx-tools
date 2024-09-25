@@ -11,10 +11,9 @@
 - `npm update`
 - `npm audit fix`
 - `git commit -am "chore: deps updated"`
-- `npx nx affected:lint`
 - `npx nx affected:lint --fix`
 - `npx nx affected:test`
-- `npx nx affected:e2e`
+- `npx nx affected:e2e --parallel=1`
 - `git commit -am "chore: fix lint and tests"`
 - update versions of packages - minor / major according to NX (?)
 - add changes to CHANGELOGs
