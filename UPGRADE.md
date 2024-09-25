@@ -9,6 +9,7 @@
 - `git commit -am "chore: nx upgrade to $NX_VER"`
 - inspect `npm outdated`
 - `npm update`
+- `npm audit fix`
 - `git commit -am "chore: deps updated"`
 - `npx nx affected:lint`
 - `npx nx affected:lint --fix`
