@@ -6,7 +6,7 @@
 - `npm i`
 - `npx nx migrate --run-migrations`
 - `npx nx format`
-- `git commit -am "chore: nx upgrate to $NX_VER"`
+- `git commit -am "chore: nx upgrade to $NX_VER"`
 - inspect `npm outdated`
 - `npm update`
 - `git commit -am "chore: deps updated"`
