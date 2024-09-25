@@ -1,6 +1,6 @@
 {
 	"name": "@ziacik/upgrade-verify",
-	"version": "3.2.0",
+	"version": "3.3.0",
 	"dependencies": {
 		"@nx/devkit": "19.8.0",
 		"@swc/helpers": "0.5.11"

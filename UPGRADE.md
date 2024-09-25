@@ -15,7 +15,8 @@
 - `npx nx affected:test`
 - `npx nx affected:e2e --parallel=1`
 - `git commit -am "chore: fix lint and tests"`
-- update versions of packages - minor / major according to NX (?)
+- `cd packages/azure-func && npm version minor && cd ../..`
+- `cd packages/upgrade-verify && npm version minor && cd ../..`
 - add changes to CHANGELOGs
 - `git commit -am "chore: package versions bumped"`
 
