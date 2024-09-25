@@ -2,10 +2,10 @@
 	"name": "@ziacik/azure-func",
 	"version": "3.3.0",
 	"dependencies": {
-		"@nx/devkit": "19.8.0",
-		"@nx/js": "19.8.0",
-		"@nx/eslint": "19.8.0",
-		"@nx/node": "19.8.0",
+		"@nx/devkit": "19.8.1",
+		"@nx/js": "19.8.1",
+		"@nx/eslint": "19.8.1",
+		"@nx/node": "19.8.1",
 		"typescript": "5.5.4",
 		"@swc/helpers": "0.5.11"
 	},
