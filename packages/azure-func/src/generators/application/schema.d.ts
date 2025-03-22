@@ -1,22 +1,6 @@
-import type { ProjectNameAndRootFormat } from '@nx/devkit/src/generators/project-name-and-root-utils';
-import type { Linter } from '@nx/eslint';
+import { Schema } from '@nx/node/src/generators/application/schema';
 
-export interface ApplicationGeneratorSchema {
+export interface ApplicationGeneratorSchema extends Schema {
 	name: string;
 	azureAppName?: string;
-	strict?: boolean;
-	skipFormat?: boolean;
-	directory?: string;
-	projectNameAndRootFormat?: ProjectNameAndRootFormat;
-	unitTestRunner?: 'jest' | 'none';
-	e2eTestRunner?: 'jest' | 'none';
-	linter?: Linter;
-	tags?: string;
-	swcJest?: boolean;
-	js?: boolean;
-	setParserOptionsProject?: boolean;
-	bundler?: 'esbuild' | 'webpack';
-	port?: number;
-	rootProject?: boolean;
-	docker?: boolean;
 }

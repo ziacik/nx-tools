@@ -6,16 +6,20 @@
 	"description": "Azure Func Application Options Schema.",
 	"type": "object",
 	"properties": {
-		"name": {
-			"description": "The name of the application.",
+		"directory": {
+			"description": "The directory of the new application.",
 			"type": "string",
 			"$default": {
 				"$source": "argv",
 				"index": 0
 			},
-			"x-prompt": "What name would you like to use for the node application?",
-			"x-priority": "important",
-			"pattern": "^[a-zA-Z][^:]*$"
+			"x-prompt": "Which directory do you want to create the application in?"
+		},
+		"name": {
+			"description": "The name of the application.",
+			"type": "string",
+			"pattern": "^[a-zA-Z][^:]*$",
+			"x-priority": "important"
 		},
 		"azureAppName": {
 			"description": "The name of the target Azure Function App for publishing. Leave empty to use the name of the application.",
@@ -23,48 +27,61 @@
 			"x-priority": "important",
 			"pattern": "^[a-zA-Z0-9-]*$"
 		},
-		"directory": {
-			"description": "The directory of the new application.",
-			"type": "string",
-			"x-priority": "important"
-		},
-		"projectNameAndRootFormat": {
-			"description": "Whether to generate the project name and root directory as provided (`as-provided`) or generate them composing their values and taking the configured layout into account (`derived`).",
-			"type": "string",
-			"enum": ["as-provided", "derived"]
-		},
 		"skipFormat": {
 			"description": "Skip formatting files",
 			"type": "boolean",
 			"default": false,
 			"x-priority": "internal"
 		},
+		"skipPackageJson": {
+			"type": "boolean",
+			"default": false,
+			"description": "Do not add dependencies to `package.json`.",
+			"x-priority": "internal"
+		},
 		"linter": {
 			"description": "The tool to use for running lint checks.",
 			"type": "string",
-			"enum": ["eslint"],
-			"default": "eslint"
+			"enum": ["eslint", "none"],
+			"default": "none",
+			"x-prompt": "Which linter would you like to use?",
+			"x-priority": "important"
 		},
 		"unitTestRunner": {
 			"type": "string",
 			"enum": ["jest", "none"],
 			"description": "Test runner to use for unit tests.",
-			"default": "jest"
+			"default": "none",
+			"x-priority": "important",
+			"x-prompt": "Which unit test runner would you like to use?"
+		},
+		"e2eTestRunner": {
+			"type": "string",
+			"enum": ["jest", "none"],
+			"description": "Test runner to use for end-to-end tests",
+			"default": "none",
+			"x-priority": "important",
+			"x-prompt": "Which end-to-end test runner would you like to use?"
 		},
 		"tags": {
 			"type": "string",
 			"description": "Add tags to the application (used for linting)."
 		},
-
+		"frontendProject": {
+			"type": "string",
+			"description": "Frontend project that needs to access this application. This sets up proxy configuration.",
+			"x-priority": "important",
+			"x-dropdown": "projects"
+		},
 		"swcJest": {
 			"type": "boolean",
-			"description": "Use `@swc/jest` instead `ts-jest` for faster test compilation.",
-			"default": false
+			"description": "Use `@swc/jest` instead `ts-jest` for faster test compilation."
 		},
-		"strict": {
+		"babelJest": {
 			"type": "boolean",
-			"description": "Creates an application with strict mode and strict type checking.",
-			"default": true
+			"description": "Use `babel` instead `ts-jest`.",
+			"default": false,
+			"x-deprecated": "Use --swcJest instead for faster compilation"
 		},
 		"js": {
 			"type": "boolean",
@@ -76,6 +93,12 @@
 			"description": "Whether or not to configure the ESLint `parserOptions.project` option. We do not do this by default for lint performance reasons.",
 			"default": false
 		},
+		"standaloneConfig": {
+			"description": "Split the project configuration into `<projectRoot>/project.json` rather than including it inside `workspace.json`.",
+			"type": "boolean",
+			"default": true,
+			"x-deprecated": "Nx only supports standaloneConfig"
+		},
 		"bundler": {
 			"description": "Bundler which is used to package the application",
 			"type": "string",
@@ -83,10 +106,18 @@
 			"default": "esbuild",
 			"x-priority": "important"
 		},
+		"framework": {
+			"description": "Generate the node application using a framework",
+			"type": "string",
+			"enum": ["express", "fastify", "koa", "nest", "none"],
+			"default": "none",
+			"x-prompt": "Which framework do you want to use?",
+			"x-priority": "important"
+		},
 		"port": {
 			"description": "The port which the server will be run on",
 			"type": "number",
-			"default": 7071
+			"default": 3000
 		},
 		"rootProject": {
 			"description": "Create node application at the root of the workspace",
@@ -95,16 +126,14 @@
 			"hidden": true,
 			"x-priority": "internal"
 		},
-		"e2eTestRunner": {
-			"type": "string",
-			"enum": ["jest", "none"],
-			"description": "Test runner to use for end to end (e2e) tests",
-			"default": "jest"
-		},
 		"docker": {
 			"type": "boolean",
 			"description": "Add a docker build target"
+		},
+		"useProjectJson": {
+			"type": "boolean",
+			"description": "Use a `project.json` configuration file instead of inlining the Nx configuration in the `package.json` file."
 		}
 	},
-	"required": ["name"]
+	"required": ["name", "directory"]
 }

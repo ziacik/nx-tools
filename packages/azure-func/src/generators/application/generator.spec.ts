@@ -14,7 +14,6 @@ describe('application generator', () => {
 		await applicationGenerator(tree, {
 			name: 'my-function-app',
 			directory: 'my-function-app',
-			projectNameAndRootFormat: 'as-provided',
 		});
 
 		const packageJson = readJson(tree, 'package.json');
@@ -29,7 +28,6 @@ describe('application generator', () => {
 		await applicationGenerator(tree, {
 			name: 'my-function-app',
 			directory: 'my-function-app',
-			projectNameAndRootFormat: 'as-provided',
 		});
 
 		const project = readProjectConfiguration(tree, 'my-function-app');
@@ -126,7 +124,6 @@ describe('application generator', () => {
 		await applicationGenerator(tree, {
 			name: 'my-function-app',
 			directory: 'my-function-app',
-			projectNameAndRootFormat: 'as-provided',
 			tags: 'one,two',
 		});
 		const projects = Object.fromEntries(getProjects(tree));
@@ -141,7 +138,6 @@ describe('application generator', () => {
 		await applicationGenerator(tree, {
 			name: 'my-function-app',
 			directory: 'my-function-app',
-			projectNameAndRootFormat: 'as-provided',
 		});
 		expect(tree.exists(`my-function-app/jest.config.ts`)).toBeTruthy();
 		expect(tree.exists('my-function-app/src/main.ts')).toBeTruthy();
@@ -225,7 +221,6 @@ describe('application generator', () => {
 		await applicationGenerator(tree, {
 			name: 'my-function-app',
 			directory: 'my-function-app',
-			projectNameAndRootFormat: 'as-provided',
 		});
 
 		const tsconfig = readJson(tree, 'my-function-app/tsconfig.json');
@@ -236,7 +231,6 @@ describe('application generator', () => {
 		await applicationGenerator(tree, {
 			name: 'my-function-app',
 			directory: 'my-function-app',
-			projectNameAndRootFormat: 'as-provided',
 		});
 
 		const tsconfig = readJson(tree, 'my-function-app/tsconfig.json');
@@ -251,25 +245,10 @@ describe('application generator', () => {
 		});
 	});
 
-	it('can generate non-strict', async () => {
-		await applicationGenerator(tree, {
-			name: 'my-function-app',
-			directory: 'my-function-app',
-			projectNameAndRootFormat: 'as-provided',
-			strict: false,
-		});
-
-		const tsconfig = readJson(tree, 'my-function-app/tsconfig.json');
-		expect(tsconfig.compilerOptions).toStrictEqual({
-			esModuleInterop: true,
-		});
-	});
-
 	it('can set custom azureAppName', async () => {
 		await applicationGenerator(tree, {
 			name: 'my-function-app',
 			directory: 'my-function-app',
-			projectNameAndRootFormat: 'as-provided',
 			azureAppName: 'my-custom-app',
 		});
 

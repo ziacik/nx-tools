@@ -6,15 +6,15 @@ import { calculateDistStats, loadExistingDistStats } from './dist-stats';
 import { VerifyBuildExecutorSchema } from './schema';
 
 export default async function verifyBuild(options: VerifyBuildExecutorSchema, context: ExecutorContext) {
-	if (context.workspace == null) {
-		throw new Error('Workspace context info not available.');
+	if (context.projectsConfigurations == null) {
+		throw new Error('ProjectsConfigurations context info not available.');
 	}
 
 	if (context.projectName == null) {
 		throw new Error('Project name not specified in context info.');
 	}
 
-	const projectConfig = context.workspace.projects[context.projectName];
+	const projectConfig = context.projectsConfigurations.projects[context.projectName];
 
 	if (projectConfig.targets == null) {
 		throw new Error('Target info not available for the project in context info.');

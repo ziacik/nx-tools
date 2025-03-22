@@ -201,7 +201,7 @@ function createContext(): ExecutorContext {
 		cwd: '.',
 		isVerbose: false,
 		projectName: 'my-project',
-		workspace: {
+		projectsConfigurations: {
 			version: 2,
 			projects: {
 				'my-project': {
@@ -219,6 +219,11 @@ function createContext(): ExecutorContext {
 					},
 				},
 			},
+		},
+		nxJsonConfiguration: {},
+		projectGraph: {
+			nodes: {},
+			dependencies: {},
 		},
 	};
 }

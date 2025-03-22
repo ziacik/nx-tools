@@ -87,25 +87,17 @@ function adjustProjectConfig(tree: Tree, normalizedOptions: NormalizedSchema): P
 }
 
 async function normalizeOptions(host: Tree, options: ApplicationGeneratorSchema): Promise<NormalizedSchema> {
-	const {
-		projectName: appProjectName,
-		projectRoot: appProjectRoot,
-		projectNameAndRootFormat,
-	} = await determineProjectNameAndRootOptions(host, {
+	const { projectName: appProjectName, projectRoot: appProjectRoot } = await determineProjectNameAndRootOptions(host, {
 		name: options.name,
 		projectType: 'application',
 		directory: options.directory,
-		projectNameAndRootFormat: options.projectNameAndRootFormat,
 		rootProject: options.rootProject,
-		callingGenerator: '@nx/node:application',
 	});
 
 	options.rootProject = appProjectRoot === '.';
-	options.projectNameAndRootFormat = projectNameAndRootFormat;
 
 	options.bundler = 'esbuild';
 	options.e2eTestRunner = options.e2eTestRunner ?? 'jest';
-	options.strict ??= true;
 
 	const parsedTags = options.tags ? options.tags.split(',').map((s) => s.trim()) : [];
 
@@ -160,10 +152,7 @@ export async function applicationGenerator(tree: Tree, schema: ApplicationGenera
 	const projectConfig = adjustProjectConfig(tree, normalizedOptions);
 
 	updateProjectConfiguration(tree, normalizedOptions.name, projectConfig);
-
-	if (normalizedOptions.strict) {
-		makeStrict(tree, normalizedOptions);
-	}
+	makeStrict(tree, normalizedOptions);
 
 	addFiles(tree, normalizedOptions);
 	await functionGenerator(tree, { name: 'hello', project: normalizedOptions.name });
