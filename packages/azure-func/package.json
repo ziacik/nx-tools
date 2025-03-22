@@ -2,11 +2,11 @@
 	"name": "@ziacik/azure-func",
 	"version": "3.3.1",
 	"dependencies": {
-		"@nx/devkit": "19.8.1",
-		"@nx/js": "19.8.1",
-		"@nx/eslint": "19.8.1",
-		"@nx/node": "19.8.1",
-		"typescript": "5.5.4",
+		"@nx/devkit": "20.6.2",
+		"@nx/js": "20.6.2",
+		"@nx/eslint": "20.6.2",
+		"@nx/node": "^20.6.2",
+		"typescript": "5.7.3",
 		"@swc/helpers": "0.5.11"
 	},
 	"type": "commonjs",
