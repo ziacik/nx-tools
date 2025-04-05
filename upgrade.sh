@@ -93,9 +93,6 @@ if [ $step -ge $START_STEP ]; then
   npx nx affected:build || { echo "Error: build failed"; exit 1; }
   npx nx affected:test || { echo "Error: tests failed"; exit 1; }
 
-  echo "Cleaning up temporary directories..."
-  rm -rf tmp || { echo "Error: failed to remove tmp directory"; exit 1; }
-
   echo "Running e2e tests..."
   npx nx affected:e2e --parallel=1 || { echo "Error: e2e tests failed"; exit 1; }
 
@@ -129,8 +126,13 @@ fi
 step=14
 
 if [ $step -ge $START_STEP ]; then
-  echo "Step 14: Awaiting changelog updates"
-  read -p "Please update changelogs if necessary. Press 'C' to continue once changelogs are updated: " -n 1 -r
+  echo "Step 14: Checking @azure/functions version"
+  echo "Please check the version of @azure/functions at https://github.com/Azure/azure-functions-nodejs-library"
+  echo "If needed, make changes in:"
+  echo "  - packages/azure-func/src/generators/application/generator.spec.ts"
+  echo "  - packages/azure-func/src/generators/application/generator.ts"
+  echo "  - packages/azure-func/migrations.json"
+  read -p "Press 'C' to continue once changes are made: " -n 1 -r
   echo
   if [[ ! $REPLY =~ ^[Cc]$ ]]; then
     echo "Script aborted by user."
@@ -140,10 +142,21 @@ fi
 step=15
 
 if [ $step -ge $START_STEP ]; then
-  echo "Step 15: Committing package version bumps"
-  git commit -am "chore: package versions bumped" || { echo "Error: git commit failed"; exit 1; }
+  echo "Step 15: Awaiting changelog updates"
+  read -p "Please update changelogs if necessary. Press 'C' to continue once changelogs are updated: " -n 1 -r
+  echo
+  if [[ ! $REPLY =~ ^[Cc]$ ]]; then
+    echo "Script aborted by user."
+    exit 1
+  fi
 fi
 step=16
+
+if [ $step -ge $START_STEP ]; then
+  echo "Step 16: Committing package version bumps"
+  git commit -am "chore: package versions bumped" || { echo "Error: git commit failed"; exit 1; }
+fi
+step=17
 
 if [ $step -ge $START_STEP ]; then
   echo "NX upgrade to version $NX_VER completed successfully!"
