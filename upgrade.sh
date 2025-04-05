@@ -11,12 +11,7 @@ VERSION_BUMP=${2:-}
 START_STEP=${3:-1}
 
 if [ -z "$VERSION_BUMP" ]; then
-  read -p "Enter version bump type (major, minor, patch): " VERSION_BUMP
-fi
-
-if [[ ! $VERSION_BUMP =~ ^(major|minor|patch)$ ]]; then
-  echo "Invalid version bump type. Must be 'major', 'minor', or 'patch'."
-  exit 1
+  read -p "Enter version bump type (major, minor, patch or specific version): " VERSION_BUMP
 fi
 
 echo "Starting NX upgrade to version $NX_VER from step $START_STEP..."
