@@ -91,15 +91,31 @@ step=11
 if [ $step -ge $START_STEP ]; then
   echo "Step 11: Running build, lint, tests, and e2e tests"
   npx nx affected:build || { echo "Error: build failed"; exit 1; }
-  npx nx affected:lint --fix || { echo "Error: linting failed"; exit 1; }
   npx nx affected:test || { echo "Error: tests failed"; exit 1; }
+
+  echo "Cleaning up temporary directories..."
+  rm -rf tmp || { echo "Error: failed to remove tmp directory"; exit 1; }
+
+  echo "Running e2e tests..."
   npx nx affected:e2e --parallel=1 || { echo "Error: e2e tests failed"; exit 1; }
+
+  echo "Reverting package.json changes modified by e2e tests"
+  git checkout -- packages/upgrade-verify/package.json || { echo "Error: git checkout failed"; exit 1; }
+  git checkout -- packages/azure-func/package.json || { echo "Error: git checkout failed"; exit 1; }
+
+  echo "Verifying there are no changes in the working directory now..."
+  if [ -n "$(git status --porcelain)" ]; then
+    echo "Error: There are uncommitted changes in the working directory."
+    git status
+    exit 1
+  fi
 fi
 step=12
 
 if [ $step -ge $START_STEP ]; then
-  echo "Step 12: Committing lint and test fixes"
-  git commit -am "chore: fix lint and tests" || { echo "Error: git commit failed"; exit 1; }
+  echo "Step 12: Autofixing lint issues and committing"
+  npx nx affected:lint --fix || { echo "Error: linting failed"; exit 1; }
+  git commit -am "chore: fix lint issues" || echo "No changes to commit after lint fix"
 fi
 step=13
 
