@@ -19,7 +19,6 @@ export default async () => {
 		storage,
 		verbose: false,
 		clearStorage: true,
-		listenAddress: '0.0.0.0',
 	});
 
 	await releaseVersion({
