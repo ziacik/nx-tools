@@ -58,6 +58,7 @@ describe('Serve Executor', () => {
 					},
 				},
 			},
+			nxJsonConfiguration: {},
 		};
 
 		options = {

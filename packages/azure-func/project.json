@@ -58,6 +58,11 @@
 			"options": {
 				"command": "tsc --noEmit -p packages/azure-func/tsconfig.spec.json"
 			}
+		},
+		"nx-release-publish": {
+			"options": {
+				"packageRoot": "dist/{projectRoot}"
+			}
 		}
 	},
 	"tags": []

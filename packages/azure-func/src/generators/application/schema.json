@@ -135,5 +135,5 @@
 			"description": "Use a `project.json` configuration file instead of inlining the Nx configuration in the `package.json` file."
 		}
 	},
-	"required": ["name", "directory"]
+	"required": ["directory"]
 }
