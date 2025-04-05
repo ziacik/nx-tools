@@ -95,5 +95,14 @@ function createContext(): ExecutorContext {
 		cwd: '.',
 		isVerbose: false,
 		projectName: 'my-project',
+		projectGraph: {
+			nodes: {},
+			dependencies: {},
+		},
+		projectsConfigurations: {
+			version: 0,
+			projects: {},
+		},
+		nxJsonConfiguration: {},
 	};
 }

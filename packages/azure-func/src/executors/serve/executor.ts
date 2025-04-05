@@ -1,16 +1,29 @@
-import { ExecutorContext, Target, runExecutor } from '@nx/devkit';
+import { ExecutorContext, Target, parseTargetString, runExecutor } from '@nx/devkit';
 import { ChildProcess, spawn } from 'child_process';
 import { join } from 'path';
 import { getBuildOptions } from '../../utils/getBuildOptions';
-import { getBuildTarget } from '../../utils/getBuildTarget';
 import { ServeExecutorSchema } from './schema';
 
 export default async function runServeExecutor(options: ServeExecutorSchema, context: ExecutorContext) {
 	process.env['NODE_ENV'] ??= context?.configurationName ?? 'development';
 
-	const buildTarget = getBuildTarget(options, context);
+	if (!context.projectName) {
+		throw new Error(`Project name is not defined in the context. Please provide a project name.`);
+	}
 
-	const buildIterator = await runExecutor(buildTarget, { ...options.buildTargetOptions, watch: true }, context);
+	const project = context.projectGraph.nodes[context.projectName];
+	const buildTarget = parseTargetString(options.buildTarget, context);
+
+	if (!project.data.targets?.[buildTarget.target]) {
+		throw new Error(`Cannot find build target ${options.buildTarget} for project ${context.projectName}`);
+	}
+
+	const buildOptions: Record<string, unknown> = {
+		...options.buildTargetOptions,
+		watch: true,
+	};
+
+	const buildIterator = await runExecutor(buildTarget, buildOptions, context);
 	let buildResult = await buildIterator.next();
 
 	if (buildResult.done) {

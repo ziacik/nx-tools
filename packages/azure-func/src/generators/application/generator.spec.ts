@@ -1,6 +1,5 @@
 import { Tree, getProjects, readJson, readProjectConfiguration } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
-
 import { applicationGenerator } from './generator';
 
 describe('application generator', () => {
@@ -15,7 +14,6 @@ describe('application generator', () => {
 			name: 'my-function-app',
 			directory: 'my-function-app',
 		});
-
 		const packageJson = readJson(tree, 'package.json');
 		expect(packageJson).toMatchObject({
 			dependencies: {
@@ -83,7 +81,6 @@ describe('application generator', () => {
 			dependsOn: ['build'],
 			options: {
 				buildTarget: 'my-function-app:build',
-				runBuildTargetDependencies: false,
 			},
 			configurations: {
 				development: {
@@ -100,7 +97,6 @@ describe('application generator', () => {
 			defaultConfiguration: 'production',
 			options: {
 				buildTarget: 'my-function-app:build',
-				runBuildTargetDependencies: false,
 			},
 			configurations: {
 				development: {

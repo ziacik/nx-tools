@@ -53,6 +53,11 @@
 			"options": {
 				"command": "tsc --noEmit -p packages/upgrade-verify/tsconfig.spec.json"
 			}
+		},
+		"nx-release-publish": {
+			"options": {
+				"packageRoot": "dist/{projectRoot}"
+			}
 		}
 	},
 	"tags": []

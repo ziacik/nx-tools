@@ -59,6 +59,7 @@ describe('Publish Executor', () => {
 					},
 				},
 			},
+			nxJsonConfiguration: {},
 		};
 
 		options = {

@@ -26,13 +26,15 @@ describe('azure-func', () => {
 		execSync('npm ls @ziacik/azure-func', {
 			cwd: projectDirectory,
 			stdio: 'inherit',
+			env: process.env,
 		});
 	});
 
 	it('should generate app', () => {
-		execSync('nx generate @ziacik/azure-func:application --name=my-func-app', {
+		execSync('nx generate @ziacik/azure-func:application --directory=my-func-app --linter=eslint --unitTestRunner=jest --e2eTestRunner=none --framework=none', {
 			cwd: projectDirectory,
 			stdio: 'inherit',
+			env: process.env,
 		});
 	});
 });
