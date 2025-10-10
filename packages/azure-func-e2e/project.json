@@ -3,6 +3,7 @@
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
 	"projectType": "application",
 	"sourceRoot": "packages/azure-func-e2e/tests",
+	"implicitDependencies": ["azure-func"],
 	"targets": {
 		"e2e": {
 			"executor": "@nx/jest:jest",
@@ -17,6 +18,5 @@
 			"executor": "@nx/eslint:lint",
 			"outputs": ["{options.outputFile}"]
 		}
-	},
-	"implicitDependencies": ["azure-func"]
+	}
 }
