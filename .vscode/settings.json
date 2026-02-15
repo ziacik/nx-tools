@@ -1,5 +1,4 @@
 {
-	"eslint.validate": ["json"],
 	"editor.formatOnPaste": true,
 	"editor.formatOnSave": true,
 	"editor.renderWhitespace": "boundary",

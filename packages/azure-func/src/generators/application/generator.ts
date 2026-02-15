@@ -15,8 +15,8 @@ import {
 	updateProjectConfiguration,
 } from '@nx/devkit';
 import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
-import { Linter } from '@nx/eslint';
 import { getRelativePathToRootTsConfig } from '@nx/js';
+import { LinterType } from '@nx/js/src/generators/library/schema';
 import { applicationGenerator as nodeApplicationGenerator } from '@nx/node';
 import { join } from 'path';
 import functionGenerator from '../function/generator';
@@ -114,7 +114,7 @@ async function normalizeOptions(host: Tree, options: ApplicationGeneratorSchema)
 		name: appProjectName,
 		appProjectRoot,
 		parsedTags,
-		linter: options.linter ?? Linter.EsLint,
+		linter: options.linter ?? LinterType.EsLint,
 		unitTestRunner: options.unitTestRunner ?? 'jest',
 		rootProject: options.rootProject ?? false,
 	};
@@ -142,7 +142,7 @@ function addProjectDependencies(tree: Tree): GeneratorCallback {
 		{
 			'@azure/functions': '^4.7.0',
 		},
-		{}
+		{},
 	);
 }
 
