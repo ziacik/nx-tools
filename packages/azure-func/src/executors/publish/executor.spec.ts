@@ -3,6 +3,9 @@ import { ExecutorContext, Target } from '@nx/devkit';
 import * as childProcess from 'child_process';
 import executor from './executor';
 import { PublishExecutorSchema } from './schema';
+
+vi.mock('child_process', { spy: true });
+
 describe('Publish Executor', () => {
 	let context: ExecutorContext;
 	let options: PublishExecutorSchema;
@@ -22,6 +25,7 @@ describe('Publish Executor', () => {
 				roots: [],
 				dependencies: {},
 				tasks: {},
+				continuousDependencies: {},
 			},
 			projectGraph: {
 				nodes: {
@@ -65,14 +69,14 @@ describe('Publish Executor', () => {
 				some: 'build-option',
 			},
 		};
-		jest.spyOn(console, 'error').mockImplementation((e) => {
+		vi.spyOn(console, 'error').mockImplementation((e) => {
 			throw new Error('Console error: ' + e);
 		});
-		jest.spyOn(devkit, 'readTargetOptions').mockImplementation((target: Target) => ({
+		vi.spyOn(devkit, 'readTargetOptions').mockImplementation((target: Target) => ({
 			outputPath: `/some/path/dist/${target.project}`,
 		}));
-		jest.spyOn(devkit, 'runExecutor');
-		jest.spyOn(childProcess, 'spawnSync').mockImplementation((command) => {
+		vi.spyOn(devkit, 'runExecutor');
+		vi.spyOn(childProcess, 'spawnSync').mockImplementation((command) => {
 			const result = command === 'npm' ? npmProcessResult : command === 'func' ? funcProcessResult : 'terminate';
 			if (result === 'succeed') {
 				return { pid: 123, status: 0, output: [], stdout: '', stderr: '', signal: null };
@@ -156,6 +160,7 @@ describe('Publish Executor', () => {
 		funcProcessResult = what;
 	}
 });
+
 function expectLogError() {
-	jest.spyOn(devkit.logger, 'error').mockImplementation();
+	vi.spyOn(devkit.logger, 'error').mockImplementation(() => undefined);
 }

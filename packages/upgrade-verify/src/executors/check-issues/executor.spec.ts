@@ -1,13 +1,18 @@
 import { ExecutorContext, logger } from '@nx/devkit';
-import * as fsPromises from 'fs/promises';
+import { readFile } from 'fs/promises';
 import executor from './executor';
 import { CheckIssuesExecutorSchema } from './schema';
+
+vi.mock('fs/promises', () => ({
+	readFile: vi.fn(),
+}));
+
 describe('CheckIssues Executor', () => {
 	let context: ExecutorContext;
 	let options: CheckIssuesExecutorSchema;
 	beforeEach(() => {
 		options = {};
-		globalThis.fetch = jest.fn().mockImplementation(async (url) => {
+		globalThis.fetch = vi.fn().mockImplementation(async (url) => {
 			if (url === 'https://api.github.com/repos/ziacik/nx-tools/issues/1') {
 				return new Response(JSON.stringify({ state: 'closed' }));
 			} else if (url === 'https://api.github.com/repos/ziacik/nx-tools/issues/12') {
@@ -18,8 +23,8 @@ describe('CheckIssues Executor', () => {
 				throw new Error('Unexpected url');
 			}
 		});
-		jest.spyOn(logger, 'info').mockImplementation();
-		jest.spyOn(fsPromises, 'readFile').mockImplementation(async () => {
+		vi.spyOn(logger, 'info').mockImplementation(() => undefined);
+		vi.mocked(readFile).mockImplementation(async () => {
 			const error: NodeJS.ErrnoException = new Error('ENOENT');
 			error.code = 'ENOENT';
 			throw error;
@@ -28,7 +33,7 @@ describe('CheckIssues Executor', () => {
 	});
 	it('tries to read ISSUES.md file in the workspace root', async () => {
 		await executor(options, context);
-		expect(fsPromises.readFile).toHaveBeenCalledWith('/some/root/ISSUES.md', 'utf8');
+		expect(readFile).toHaveBeenCalledWith('/some/root/ISSUES.md', 'utf8');
 	});
 	it('just returns success if there is no ISSUES.md file in the workspace root', async () => {
 		const output = await executor(options, context);
@@ -36,7 +41,7 @@ describe('CheckIssues Executor', () => {
 		expect(output.success).toBe(true);
 	});
 	it('tells that no issues have been closed if no issues have been closed', async () => {
-		jest.mocked(fsPromises.readFile).mockResolvedValue(`# Issues
+		vi.mocked(readFile).mockResolvedValue(`# Issues
 
 https://github.com/ziacik/nx-tools/issues/12
 [Some issue](https://github.com/ziacik/nx-tools/issues/135)
@@ -47,7 +52,7 @@ https://github.com/ziacik/nx-tools/issues/12
 		expect(output.success).toBe(true);
 	});
 	it('checks all github issues found in ISSUES.md file in workspace root', async () => {
-		jest.mocked(fsPromises.readFile).mockResolvedValue(`# Issues
+		vi.mocked(readFile).mockResolvedValue(`# Issues
 
 [https://github.com/ziacik/nx-tools/issues/1](https://github.com/ziacik/nx-tools/issues/1)
 https://github.com/ziacik/nx-tools/issues/12
@@ -61,7 +66,7 @@ https://github.com/ziacik/nx-tools/issues/12
 		expect(output.success).toBe(true);
 	});
 	it('lists all issues which are in the list and have become closed already', async () => {
-		jest.mocked(fsPromises.readFile).mockResolvedValue(`# Issues
+		vi.mocked(readFile).mockResolvedValue(`# Issues
 
 [https://github.com/ziacik/nx-tools/issues/1](https://github.com/ziacik/nx-tools/issues/1)
 https://github.com/ziacik/nx-tools/issues/12

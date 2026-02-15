@@ -5,6 +5,9 @@ import { ChildProcess } from 'child_process';
 import { Readable } from 'stream';
 import executor from './executor';
 import { ServeExecutorSchema } from './schema';
+
+vi.mock('child_process', { spy: true });
+
 describe('Serve Executor', () => {
 	let context: ExecutorContext;
 	let options: ServeExecutorSchema;
@@ -22,6 +25,7 @@ describe('Serve Executor', () => {
 				roots: [],
 				dependencies: {},
 				tasks: {},
+				continuousDependencies: {},
 			},
 			projectGraph: {
 				nodes: {
@@ -64,19 +68,19 @@ describe('Serve Executor', () => {
 				some: 'build-option',
 			},
 		};
-		jest.spyOn(console, 'error').mockImplementation((e) => {
+		vi.spyOn(console, 'error').mockImplementation((e) => {
 			throw new Error('Console error: ' + e);
 		});
-		jest.spyOn(devkit, 'readTargetOptions').mockImplementation((target: Target) => ({
+		vi.spyOn(devkit, 'readTargetOptions').mockImplementation((target: Target) => ({
 			outputPath: `/some/path/dist/${target.project}`,
 		}));
 		funcProcess = new ChildProcess();
 		funcProcess.stdout = new Readable();
 		funcProcess.stderr = new Readable();
-		jest.spyOn(childProcess, 'spawn').mockReturnValueOnce(funcProcess);
-		jest.spyOn(funcProcess, 'kill').mockImplementation();
-		jest.spyOn(funcProcess.stdout, 'pipe').mockImplementation();
-		jest.spyOn(funcProcess.stderr, 'pipe').mockImplementation();
+		vi.spyOn(childProcess, 'spawn').mockReturnValueOnce(funcProcess);
+		vi.spyOn(funcProcess, 'kill').mockImplementation(() => true);
+		vi.spyOn(funcProcess.stdout, 'pipe').mockImplementation(() => true);
+		vi.spyOn(funcProcess.stderr, 'pipe').mockImplementation(() => true);
 	});
 	afterEach(() => {
 		// Just in case something is poorly written, let's make sure a timeout doesn't leak to other test.
@@ -96,7 +100,7 @@ describe('Serve Executor', () => {
 				some: 'build-option',
 				watch: true,
 			},
-			context
+			context,
 		);
 	});
 	async function expectNotResolving(promise: Promise<unknown>): Promise<void> {
@@ -112,7 +116,7 @@ describe('Serve Executor', () => {
 						clearTimeout(timeout);
 						reject(e);
 					});
-			})
+			}),
 		).resolves.not.toThrow();
 	}
 	it('if the build fails, we do not fail but continue watching', async () => {
@@ -179,7 +183,7 @@ describe('Serve Executor', () => {
 	type BuildResult = 'succeed' | 'fail' | 'terminate';
 	function buildWill(...what: BuildResult[]): string[] {
 		const yields: string[] = [];
-		jest.spyOn(devkit, 'runExecutor').mockResolvedValue(
+		vi.spyOn(devkit, 'runExecutor').mockResolvedValue(
 			(async function* () {
 				for (const buildResult of what) {
 					yields.push(buildResult);
@@ -195,7 +199,7 @@ describe('Serve Executor', () => {
 					/* simluate watching forever */
 				});
 				return { success: false };
-			})()
+			})(),
 		);
 		return yields;
 	}

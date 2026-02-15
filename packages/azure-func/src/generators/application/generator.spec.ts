@@ -124,7 +124,7 @@ describe('application generator', () => {
 			name: 'my-function-app',
 			directory: 'my-function-app',
 		});
-		expect(tree.exists(`my-function-app/jest.config.ts`)).toBeTruthy();
+		expect(tree.exists(`my-function-app/jest.config.cts`)).toBeTruthy();
 		expect(tree.exists('my-function-app/src/main.ts')).toBeTruthy();
 		expect(tree.exists('my-function-app/src/hello/hello.function.ts')).toBeTruthy();
 		expect(tree.exists('my-function-app/src/hello/hello.function.spec.ts')).toBeTruthy();
@@ -159,43 +159,14 @@ describe('application generator', () => {
 		const tsconfigApp = readJson(tree, 'my-function-app/tsconfig.app.json');
 		expect(tsconfigApp.compilerOptions.outDir).toEqual('../dist/out-tsc');
 		expect(tsconfigApp.extends).toEqual('./tsconfig.json');
-		expect(tsconfigApp.exclude).toEqual(['jest.config.ts', 'src/**/*.spec.ts', 'src/**/*.test.ts']);
-		const eslintrc = readJson(tree, 'my-function-app/.eslintrc.json');
+		expect(tsconfigApp.exclude).toEqual(['jest.config.ts', 'jest.config.cts', 'src/**/*.spec.ts', 'src/**/*.test.ts']);
+		const eslintrc = tree.read('my-function-app/eslint.config.mjs', 'utf-8');
 		expect(eslintrc).toMatchInlineSnapshot(`
-			        {
-			          "extends": [
-			            "../.eslintrc.json",
-			          ],
-			          "ignorePatterns": [
-			            "!**/*",
-			          ],
-			          "overrides": [
-			            {
-			              "files": [
-			                "*.ts",
-			                "*.tsx",
-			                "*.js",
-			                "*.jsx",
-			              ],
-			              "rules": {},
-			            },
-			            {
-			              "files": [
-			                "*.ts",
-			                "*.tsx",
-			              ],
-			              "rules": {},
-			            },
-			            {
-			              "files": [
-			                "*.js",
-			                "*.jsx",
-			              ],
-			              "rules": {},
-			            },
-			          ],
-			        }
-		      `);
+			"import baseConfig from '../eslint.config.mjs';
+
+			export default [...baseConfig];
+			"
+		`);
 	});
 	it('should extend from root tsconfig.json when no tsconfig.base.json', async () => {
 		tree.rename('tsconfig.base.json', 'tsconfig.json');
