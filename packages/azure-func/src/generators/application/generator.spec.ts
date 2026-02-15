@@ -77,6 +77,7 @@ describe('application generator', () => {
 
 		expect(project.targets?.['serve']).toStrictEqual({
 			executor: '@ziacik/azure-func:serve',
+			continuous: true,
 			defaultConfiguration: 'development',
 			dependsOn: ['build'],
 			options: {

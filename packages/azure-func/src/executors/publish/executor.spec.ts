@@ -77,6 +77,7 @@ describe('Publish Executor', () => {
 		jest.spyOn(devkit, 'readTargetOptions').mockImplementation((target: Target) => ({
 			outputPath: `/some/path/dist/${target.project}`,
 		}));
+		jest.spyOn(devkit, 'runExecutor');
 
 		jest.spyOn(childProcess, 'spawnSync').mockImplementation((command) => {
 			const result = command === 'npm' ? npmProcessResult : command === 'func' ? funcProcessResult : 'terminate';
@@ -91,46 +92,13 @@ describe('Publish Executor', () => {
 		});
 	});
 
-	it('runs the build target first', async () => {
-		buildWill('succeed');
-		npmProcessWill('succeed');
+	it('does not run build target and only publishes existing dist artifacts', async () => {
 		const { success } = await executor(options, context);
 		expect(success).toBe(true);
-		expect(devkit.runExecutor).toHaveBeenCalledTimes(1);
-		expect(devkit.runExecutor).toHaveBeenCalledWith(
-			{
-				configuration: 'production',
-				project: 'my-app',
-				target: 'build',
-			},
-			{
-				some: 'build-option',
-				watch: false,
-			},
-			context
-		);
+		expect(devkit.runExecutor).not.toHaveBeenCalled();
 	});
 
-	it('if the build fails, we fail', async () => {
-		buildWill('fail');
-		const { success } = await executor(options, context);
-		expect(success).toBe(false);
-	});
-
-	it('if subsequent build fails, we fail', async () => {
-		buildWill('succeed', 'succeed', 'fail');
-		const { success } = await executor(options, context);
-		expect(success).toBe(false);
-	});
-
-	it('will not start dependency installation if the build fails', async () => {
-		buildWill('fail');
-		await executor(options, context);
-		expect(childProcess.spawnSync).not.toHaveBeenCalled();
-	});
-
-	it('installs dependencies in the dist dir after build', async () => {
-		buildWill('succeed');
+	it('installs dependencies in the dist dir', async () => {
 		npmProcessWill('fail');
 		await executor(options, context);
 		expect(childProcess.spawnSync).toHaveBeenCalledWith('npm', ['install', '--omit=dev'], {
@@ -141,14 +109,12 @@ describe('Publish Executor', () => {
 	});
 
 	it('if installing dependencies fails, we fail', async () => {
-		buildWill('succeed');
 		npmProcessWill('fail');
 		const { success } = await executor(options, context);
 		expect(success).toBe(false);
 	});
 
 	it('if installing dependencies throws, we fail', async () => {
-		buildWill('succeed');
 		npmProcessWill('terminate');
 		expectLogError();
 		const { success } = await executor(options, context);
@@ -157,7 +123,6 @@ describe('Publish Executor', () => {
 	});
 
 	it('will not start publish if npm i fails', async () => {
-		buildWill('succeed');
 		npmProcessWill('fail');
 		await executor(options, context);
 		expect(childProcess.spawnSync).toHaveBeenCalledWith('npm', expect.anything(), expect.anything());
@@ -165,7 +130,6 @@ describe('Publish Executor', () => {
 	});
 
 	it('runs func to publish the app to azure', async () => {
-		buildWill('succeed');
 		npmProcessWill('succeed');
 		funcProcessWill('succeed');
 		await executor(options, context);
@@ -176,7 +140,6 @@ describe('Publish Executor', () => {
 	});
 
 	it('will use application name if azureAppName option is not set', async () => {
-		buildWill('succeed');
 		npmProcessWill('succeed');
 		funcProcessWill('succeed');
 		delete options.azureAppName;
@@ -188,7 +151,6 @@ describe('Publish Executor', () => {
 	});
 
 	it('if publish terminates, we fail', async () => {
-		buildWill('succeed');
 		npmProcessWill('succeed');
 		funcProcessWill('terminate');
 		expectLogError();
@@ -198,7 +160,6 @@ describe('Publish Executor', () => {
 	});
 
 	it('if publish fails, we fail', async () => {
-		buildWill('succeed');
 		npmProcessWill('succeed');
 		funcProcessWill('fail');
 		const output = await executor(options, context);
@@ -213,24 +174,6 @@ describe('Publish Executor', () => {
 
 	function funcProcessWill(what: BuildResult): void {
 		funcProcessResult = what;
-	}
-
-	function buildWill(...what: BuildResult[]): void {
-		jest.spyOn(devkit, 'runExecutor').mockResolvedValue(
-			(async function* () {
-				for (const buildResult of what) {
-					if (buildResult === 'terminate') {
-						return { success: false };
-					} else {
-						yield {
-							success: buildResult === 'succeed',
-						};
-					}
-				}
-
-				return { success: true };
-			})()
-		);
 	}
 });
 
