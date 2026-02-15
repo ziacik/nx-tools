@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
 	displayName: 'test-app',
 	preset: '../../jest.preset.js',
