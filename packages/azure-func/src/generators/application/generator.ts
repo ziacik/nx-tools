@@ -44,9 +44,13 @@ function addFiles(tree: Tree, options: NormalizedSchema) {
 
 function adjustProjectConfig(tree: Tree, normalizedOptions: NormalizedSchema): ProjectConfiguration {
 	const generatedProjectConfig = readProjectConfiguration(tree, normalizedOptions.name);
+	const generatedServeTarget = generatedProjectConfig.targets?.['serve'];
+	const serveBuildTargetOptions = generatedServeTarget?.options?.buildTargetOptions;
 
-	const serveOptions = { ...generatedProjectConfig.targets?.['serve'].options };
-	delete serveOptions.runBuildTargetDependencies;
+	const sharedBuildOptions = {
+		buildTarget: generatedServeTarget?.options?.buildTarget ?? `${normalizedOptions.name}:build`,
+		...(serveBuildTargetOptions !== undefined ? { buildTargetOptions: serveBuildTargetOptions } : {}),
+	};
 
 	return {
 		...generatedProjectConfig,
@@ -72,18 +76,18 @@ function adjustProjectConfig(tree: Tree, normalizedOptions: NormalizedSchema): P
 				},
 			},
 			serve: {
-				...generatedProjectConfig.targets?.['serve'],
+				...generatedServeTarget,
 				executor: '@ziacik/azure-func:serve',
-				options: serveOptions,
+				options: sharedBuildOptions,
 			},
 			publish: {
-				...generatedProjectConfig.targets?.['serve'],
 				executor: '@ziacik/azure-func:publish',
 				defaultConfiguration: 'production',
 				options: {
-					...serveOptions,
+					...sharedBuildOptions,
 					azureAppName: normalizedOptions.azureAppName,
 				},
+				configurations: generatedServeTarget?.configurations,
 				dependsOn: ['build'],
 			},
 		},

@@ -1,4 +1,4 @@
-import { ExecutorContext, logger, runExecutor } from '@nx/devkit';
+import { ExecutorContext, logger } from '@nx/devkit';
 import { join } from 'path';
 import { getBuildOptions } from '../../utils/getBuildOptions';
 import { getBuildTarget } from '../../utils/getBuildTarget';
@@ -9,14 +9,6 @@ export default async function runPublishExecutor(options: PublishExecutorSchema,
 	process.env['NODE_ENV'] ??= context?.configurationName ?? 'production';
 
 	const buildTarget = getBuildTarget(options, context);
-	const buildIterator = await runExecutor(buildTarget, { ...options.buildTargetOptions, watch: false }, context);
-
-	for await (const buildResult of buildIterator) {
-		if (!buildResult.success) {
-			return buildResult;
-		}
-	}
-
 	const buildOptions = getBuildOptions(buildTarget, options, context);
 	const distDir = join(context.root, buildOptions.outputPath);
 

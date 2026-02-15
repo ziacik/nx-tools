@@ -11,11 +11,11 @@
 		},
 		"buildTarget": {
 			"type": "string",
-			"description": "The target to run to build you the app."
+			"description": "The build target used to resolve outputPath for publishing."
 		},
 		"buildTargetOptions": {
 			"type": "object",
-			"description": "Additional options to pass into the build target.",
+			"description": "Additional options used when resolving build target options.",
 			"default": {}
 		}
 	},
