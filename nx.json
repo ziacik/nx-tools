@@ -22,6 +22,10 @@
 		"@nx/eslint:lint": {
 			"inputs": ["default", "{workspaceRoot}/.eslintrc.json", "{workspaceRoot}/.eslintignore"],
 			"cache": true
+		},
+		"@nx/vitest:test": {
+			"cache": true,
+			"inputs": ["default", "^production"]
 		}
 	},
 	"namedInputs": {
