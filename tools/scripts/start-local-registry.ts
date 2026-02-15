@@ -8,7 +8,7 @@
 import { startLocalRegistry } from '@nx/js/plugins/jest/local-registry';
 import { releasePublish, releaseVersion } from 'nx/release';
 
-export default async () => {
+const startLocalRegistryForTests = async () => {
 	// local registry target to run
 	const localRegistryTarget = '@ziacik/source:local-registry';
 	// storage folder for the local registry
@@ -36,3 +36,5 @@ export default async () => {
 		firstRelease: true,
 	});
 };
+
+export = startLocalRegistryForTests;
