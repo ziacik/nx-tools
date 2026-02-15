@@ -8,16 +8,13 @@ import * as EXPECTED_STATS_NOHASH from './__fixtures__/expected-stats-nohash.jso
 import * as EXPECTED_STATS from './__fixtures__/expected-stats.json';
 import executor from './executor';
 import { VerifyBuildExecutorSchema } from './schema';
-
 describe('VerifyBuild Executor', () => {
 	let context: ExecutorContext;
 	let options: VerifyBuildExecutorSchema;
-
 	beforeEach(() => {
 		options = {
 			removeHashes: false,
 		};
-
 		jest.spyOn(logger, 'info').mockImplementation();
 		jest.spyOn(fsPromises, 'writeFile').mockResolvedValue();
 		jest.spyOn(fsPromises, 'mkdir').mockResolvedValue(undefined);
@@ -32,10 +29,8 @@ describe('VerifyBuild Executor', () => {
 				};
 			})()
 		);
-
 		context = createContext();
 	});
-
 	it('sequentially runs a build for each configuration', async () => {
 		const output = await executor(options, context);
 		expect(output.success).toBe(true);
@@ -58,64 +53,50 @@ describe('VerifyBuild Executor', () => {
 			context
 		);
 	});
-
 	it('calculates and stores stats after each build', async () => {
 		await executor(options, context);
-
 		expect(mkdir).toHaveBeenCalledWith(resolve(__dirname, '../../../../..', 'packages/my-project/.stats'));
 		expect(mkdir).toHaveBeenCalledTimes(1);
-
 		expect(writeFile).toHaveBeenCalledWith(
 			resolve(__dirname, '../../../../..', 'packages/my-project/.stats/production.json'),
 			JSON.stringify(EXPECTED_STATS, null, '\t')
 		);
-
 		expect(writeFile).toHaveBeenCalledWith(
 			resolve(__dirname, '../../../../..', 'packages/my-project/.stats/development.json'),
 			JSON.stringify(EXPECTED_STATS, null, '\t')
 		);
 	});
-
 	it('removes hashes from filenames if removeHashes is true', async () => {
 		options.removeHashes = true;
 		await executor(options, context);
-
 		expect(mkdir).toHaveBeenCalledWith(resolve(__dirname, '../../../../..', 'packages/my-project/.stats'));
 		expect(mkdir).toHaveBeenCalledTimes(1);
-
 		expect(writeFile).toHaveBeenCalledWith(
 			resolve(__dirname, '../../../../..', 'packages/my-project/.stats/production.json'),
 			JSON.stringify(EXPECTED_STATS_NOHASH, null, '\t')
 		);
-
 		expect(writeFile).toHaveBeenCalledWith(
 			resolve(__dirname, '../../../../..', 'packages/my-project/.stats/development.json'),
 			JSON.stringify(EXPECTED_STATS_NOHASH, null, '\t')
 		);
 	});
-
 	it('removes hashes by default (if removeHashes is not set)', async () => {
 		delete options.removeHashes;
 		await executor(options, context);
-
 		expect(mkdir).toHaveBeenCalledWith(resolve(__dirname, '../../../../..', 'packages/my-project/.stats'));
 		expect(mkdir).toHaveBeenCalledTimes(1);
-
 		expect(writeFile).toHaveBeenCalledWith(
 			resolve(__dirname, '../../../../..', 'packages/my-project/.stats/production.json'),
 			JSON.stringify(EXPECTED_STATS_NOHASH, null, '\t')
 		);
-
 		expect(writeFile).toHaveBeenCalledWith(
 			resolve(__dirname, '../../../../..', 'packages/my-project/.stats/development.json'),
 			JSON.stringify(EXPECTED_STATS_NOHASH, null, '\t')
 		);
 	});
-
 	it('compares the calculated stats after each build to the previous one, if exist, and writes to output', async () => {
 		jest.mocked(readFile).mockResolvedValue(JSON.stringify(DIFFERING_STATS));
 		await executor(options, context);
-
 		expect(logger.info).toHaveBeenCalledWith(
 			'Stats for my-project/development: 29% total size difference, -9% file count difference, 30% new files, 36% deleted files'
 		);
@@ -123,11 +104,9 @@ describe('VerifyBuild Executor', () => {
 			'Stats for my-project/production: 29% total size difference, -9% file count difference, 30% new files, 36% deleted files'
 		);
 	});
-
 	it('compares the calculated stats after each build to the previous one, reports zero differences if there are zero differences', async () => {
 		jest.mocked(readFile).mockResolvedValue(JSON.stringify(EXPECTED_STATS));
 		await executor(options, context);
-
 		expect(logger.info).toHaveBeenCalledWith(
 			'Stats for my-project/development: 0% total size difference, 0% file count difference, 0% new files, 0% deleted files'
 		);
@@ -135,19 +114,16 @@ describe('VerifyBuild Executor', () => {
 			'Stats for my-project/production: 0% total size difference, 0% file count difference, 0% new files, 0% deleted files'
 		);
 	});
-
 	it('passes as success if none of the percentages exceeds 10%', async () => {
 		jest.mocked(readFile).mockResolvedValue(JSON.stringify(EXPECTED_STATS));
 		const { success } = await executor(options, context);
 		expect(success).toBe(true);
 	});
-
 	it('fails if some of the percentages exceeds 10%', async () => {
 		jest.mocked(readFile).mockResolvedValue(JSON.stringify(DIFFERING_STATS));
 		const { success } = await executor(options, context);
 		expect(success).toBe(false);
 	});
-
 	it('fails immediately if some of the builds fails', async () => {
 		jest.spyOn(devkit, 'runExecutor').mockResolvedValue(
 			(async function* () {
@@ -159,7 +135,6 @@ describe('VerifyBuild Executor', () => {
 		expect(readFile).not.toHaveBeenCalled();
 		expect(writeFile).not.toHaveBeenCalled();
 	});
-
 	it('isolates build runs from executor context modifications', async () => {
 		jest.spyOn(devkit, 'runExecutor').mockImplementation(async (targetDescription, overrides, context) => {
 			if (context.target?.command === 'should-not-retain-this') {
@@ -175,7 +150,6 @@ describe('VerifyBuild Executor', () => {
 		const { success } = await executor(options, context);
 		expect(success).toBe(true);
 	});
-
 	it('isolates build runs from process env modifications (but retains the originals)', async () => {
 		jest.spyOn(devkit, 'runExecutor').mockImplementation(async () => {
 			if (process.env['something'] === 'should-not-retain-this') {
@@ -194,7 +168,6 @@ describe('VerifyBuild Executor', () => {
 		expect(success).toBe(true);
 	});
 });
-
 function createContext(): ExecutorContext {
 	return {
 		root: resolve(__dirname, '../../../../..'),
