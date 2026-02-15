@@ -5,8 +5,10 @@
 
 /// <reference path="registry.d.ts" />
 
-export default () => {
+const stopLocalRegistry = () => {
 	if (global.stopLocalRegistry) {
 		global.stopLocalRegistry();
 	}
 };
+
+export = stopLocalRegistry;

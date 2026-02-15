@@ -2,6 +2,8 @@ import { execSync } from 'child_process';
 import { mkdirSync, rmSync } from 'fs';
 import { dirname, join } from 'path';
 
+const LOCAL_REGISTRY = 'http://localhost:4873';
+
 describe('azure-func', () => {
 	let projectDirectory: string;
 
@@ -11,7 +13,11 @@ describe('azure-func', () => {
 		execSync(`npm install @ziacik/azure-func@e2e`, {
 			cwd: projectDirectory,
 			stdio: 'inherit',
-			env: process.env,
+			env: {
+				...process.env,
+				NPM_CONFIG_REGISTRY: LOCAL_REGISTRY,
+				npm_config_registry: LOCAL_REGISTRY,
+			},
 		});
 	});
 

@@ -1,8 +1,8 @@
 {
 	"name": "@ziacik/upgrade-verify",
-	"version": "4.0.0",
+	"version": "0.0.0-e2e",
 	"dependencies": {
-		"@nx/devkit": "20.7.1",
+		"@nx/devkit": "21.6.4",
 		"@swc/helpers": "0.5.11"
 	},
 	"type": "commonjs",
