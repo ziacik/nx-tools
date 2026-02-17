@@ -21,10 +21,12 @@ vi.mock('fs/promises', async () => {
 describe('VerifyBuild Executor', () => {
 	let context: ExecutorContext;
 	let options: VerifyBuildExecutorSchema;
+
 	beforeEach(() => {
 		options = {
 			removeHashes: false,
 		};
+
 		vi.spyOn(logger, 'info').mockImplementation(() => undefined);
 		vi.mocked(writeFile).mockResolvedValue(undefined);
 		vi.mocked(mkdir).mockResolvedValue(undefined);
@@ -37,10 +39,12 @@ describe('VerifyBuild Executor', () => {
 						outputPath: resolve(__dirname, '__fixtures__/_dist/test-app'),
 					},
 				};
-			})()
+			})(),
 		);
+
 		context = createContext();
 	});
+
 	it('sequentially runs a build for each configuration', async () => {
 		const output = await executor(options, context);
 		expect(output.success).toBe(true);
@@ -51,7 +55,7 @@ describe('VerifyBuild Executor', () => {
 				configuration: 'production',
 			},
 			{},
-			context
+			context,
 		);
 		expect(devkit.runExecutor).toHaveBeenCalledWith(
 			{
@@ -60,91 +64,111 @@ describe('VerifyBuild Executor', () => {
 				configuration: 'development',
 			},
 			{},
-			context
+			context,
 		);
 	});
+
 	it('calculates and stores stats after each build', async () => {
 		await executor(options, context);
+
 		expect(mkdir).toHaveBeenCalledWith(resolve(__dirname, '../../../../..', 'packages/my-project/.stats'));
 		expect(mkdir).toHaveBeenCalledTimes(1);
+
 		expect(writeFile).toHaveBeenCalledWith(
 			resolve(__dirname, '../../../../..', 'packages/my-project/.stats/production.json'),
-			JSON.stringify(EXPECTED_STATS, null, '\t')
+			JSON.stringify(EXPECTED_STATS, null, '\t'),
 		);
+
 		expect(writeFile).toHaveBeenCalledWith(
 			resolve(__dirname, '../../../../..', 'packages/my-project/.stats/development.json'),
-			JSON.stringify(EXPECTED_STATS, null, '\t')
+			JSON.stringify(EXPECTED_STATS, null, '\t'),
 		);
 	});
+
 	it('removes hashes from filenames if removeHashes is true', async () => {
 		options.removeHashes = true;
 		await executor(options, context);
+
 		expect(mkdir).toHaveBeenCalledWith(resolve(__dirname, '../../../../..', 'packages/my-project/.stats'));
 		expect(mkdir).toHaveBeenCalledTimes(1);
+
 		expect(writeFile).toHaveBeenCalledWith(
 			resolve(__dirname, '../../../../..', 'packages/my-project/.stats/production.json'),
-			JSON.stringify(EXPECTED_STATS_NOHASH, null, '\t')
+			JSON.stringify(EXPECTED_STATS_NOHASH, null, '\t'),
 		);
+
 		expect(writeFile).toHaveBeenCalledWith(
 			resolve(__dirname, '../../../../..', 'packages/my-project/.stats/development.json'),
-			JSON.stringify(EXPECTED_STATS_NOHASH, null, '\t')
+			JSON.stringify(EXPECTED_STATS_NOHASH, null, '\t'),
 		);
 	});
+
 	it('removes hashes by default (if removeHashes is not set)', async () => {
 		delete options.removeHashes;
 		await executor(options, context);
+
 		expect(mkdir).toHaveBeenCalledWith(resolve(__dirname, '../../../../..', 'packages/my-project/.stats'));
 		expect(mkdir).toHaveBeenCalledTimes(1);
+
 		expect(writeFile).toHaveBeenCalledWith(
 			resolve(__dirname, '../../../../..', 'packages/my-project/.stats/production.json'),
-			JSON.stringify(EXPECTED_STATS_NOHASH, null, '\t')
+			JSON.stringify(EXPECTED_STATS_NOHASH, null, '\t'),
 		);
+
 		expect(writeFile).toHaveBeenCalledWith(
 			resolve(__dirname, '../../../../..', 'packages/my-project/.stats/development.json'),
-			JSON.stringify(EXPECTED_STATS_NOHASH, null, '\t')
+			JSON.stringify(EXPECTED_STATS_NOHASH, null, '\t'),
 		);
 	});
+
 	it('compares the calculated stats after each build to the previous one, if exist, and writes to output', async () => {
 		vi.mocked(readFile).mockResolvedValue(JSON.stringify(DIFFERING_STATS));
 		await executor(options, context);
+
 		expect(logger.info).toHaveBeenCalledWith(
-			'Stats for my-project/development: 29% total size difference, -9% file count difference, 30% new files, 36% deleted files'
+			'Stats for my-project/development: 29% total size difference, -9% file count difference, 30% new files, 36% deleted files',
 		);
 		expect(logger.info).toHaveBeenCalledWith(
-			'Stats for my-project/production: 29% total size difference, -9% file count difference, 30% new files, 36% deleted files'
+			'Stats for my-project/production: 29% total size difference, -9% file count difference, 30% new files, 36% deleted files',
 		);
 	});
+
 	it('compares the calculated stats after each build to the previous one, reports zero differences if there are zero differences', async () => {
 		vi.mocked(readFile).mockResolvedValue(JSON.stringify(EXPECTED_STATS));
 		await executor(options, context);
+
 		expect(logger.info).toHaveBeenCalledWith(
-			'Stats for my-project/development: 0% total size difference, 0% file count difference, 0% new files, 0% deleted files'
+			'Stats for my-project/development: 0% total size difference, 0% file count difference, 0% new files, 0% deleted files',
 		);
 		expect(logger.info).toHaveBeenCalledWith(
-			'Stats for my-project/production: 0% total size difference, 0% file count difference, 0% new files, 0% deleted files'
+			'Stats for my-project/production: 0% total size difference, 0% file count difference, 0% new files, 0% deleted files',
 		);
 	});
+
 	it('passes as success if none of the percentages exceeds 10%', async () => {
 		vi.mocked(readFile).mockResolvedValue(JSON.stringify(EXPECTED_STATS));
 		const { success } = await executor(options, context);
 		expect(success).toBe(true);
 	});
+
 	it('fails if some of the percentages exceeds 10%', async () => {
 		vi.mocked(readFile).mockResolvedValue(JSON.stringify(DIFFERING_STATS));
 		const { success } = await executor(options, context);
 		expect(success).toBe(false);
 	});
+
 	it('fails immediately if some of the builds fails', async () => {
 		vi.spyOn(devkit, 'runExecutor').mockResolvedValue(
 			(async function* () {
 				yield { success: false };
-			})()
+			})(),
 		);
 		const { success } = await executor(options, context);
 		expect(success).toBe(false);
 		expect(readFile).not.toHaveBeenCalled();
 		expect(writeFile).not.toHaveBeenCalled();
 	});
+
 	it('isolates build runs from executor context modifications', async () => {
 		vi.spyOn(devkit, 'runExecutor').mockImplementation(async (targetDescription, overrides, context) => {
 			if (context.target?.command === 'should-not-retain-this') {
@@ -160,6 +184,7 @@ describe('VerifyBuild Executor', () => {
 		const { success } = await executor(options, context);
 		expect(success).toBe(true);
 	});
+
 	it('isolates build runs from process env modifications (but retains the originals)', async () => {
 		vi.spyOn(devkit, 'runExecutor').mockImplementation(async () => {
 			if (process.env['something'] === 'should-not-retain-this') {
@@ -178,6 +203,7 @@ describe('VerifyBuild Executor', () => {
 		expect(success).toBe(true);
 	});
 });
+
 function createContext(): ExecutorContext {
 	return {
 		root: resolve(__dirname, '../../../../..'),

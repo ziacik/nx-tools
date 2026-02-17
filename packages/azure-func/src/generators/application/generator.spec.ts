@@ -1,11 +1,14 @@
 import { Tree, getProjects, readJson, readProjectConfiguration } from '@nx/devkit';
 import { createTreeWithEmptyWorkspace } from '@nx/devkit/testing';
 import { applicationGenerator } from './generator';
+
 describe('application generator', () => {
 	let tree: Tree;
+
 	beforeEach(() => {
 		tree = createTreeWithEmptyWorkspace();
 	});
+
 	it('should install azure func dependencies', async () => {
 		await applicationGenerator(tree, {
 			name: 'my-function-app',
@@ -18,12 +21,15 @@ describe('application generator', () => {
 			},
 		});
 	});
+
 	it('should update project config', async () => {
 		await applicationGenerator(tree, {
 			name: 'my-function-app',
 			directory: 'my-function-app',
 		});
+
 		const project = readProjectConfiguration(tree, 'my-function-app');
+
 		expect(project.root).toEqual('my-function-app');
 		expect(project.targets?.['build']).toStrictEqual({
 			executor: '@nx/esbuild:esbuild',
@@ -68,6 +74,7 @@ describe('application generator', () => {
 				},
 			},
 		});
+
 		expect(project.targets?.['serve']).toStrictEqual({
 			executor: '@ziacik/azure-func:serve',
 			continuous: true,
@@ -85,6 +92,7 @@ describe('application generator', () => {
 				},
 			},
 		});
+
 		expect(project.targets?.['publish']).toStrictEqual({
 			executor: '@ziacik/azure-func:publish',
 			defaultConfiguration: 'production',
@@ -101,11 +109,14 @@ describe('application generator', () => {
 			},
 			dependsOn: ['build'],
 		});
+
 		expect(project.targets?.['lint']).toStrictEqual({
 			executor: '@nx/eslint:lint',
 		});
+
 		expect(() => readProjectConfiguration(tree, 'my-function-app-e2e')).not.toThrow();
 	});
+
 	it('should update tags', async () => {
 		await applicationGenerator(tree, {
 			name: 'my-function-app',
@@ -119,6 +130,7 @@ describe('application generator', () => {
 			},
 		});
 	});
+
 	it('should generate files', async () => {
 		await applicationGenerator(tree, {
 			name: 'my-function-app',
@@ -131,6 +143,7 @@ describe('application generator', () => {
 		expect(tree.exists('my-function-app/.funcignore')).toBeTruthy();
 		expect(tree.exists('my-function-app/host.json')).toBeTruthy();
 		expect(tree.exists('my-function-app/local.settings.json')).toBeTruthy();
+
 		const tsconfig = readJson(tree, 'my-function-app/tsconfig.json');
 		expect(tsconfig).toMatchInlineSnapshot(`
 			{
@@ -156,6 +169,7 @@ describe('application generator', () => {
 			  ],
 			}
 		`);
+
 		const tsconfigApp = readJson(tree, 'my-function-app/tsconfig.app.json');
 		expect(tsconfigApp.compilerOptions.outDir).toEqual('../dist/out-tsc');
 		expect(tsconfigApp.extends).toEqual('./tsconfig.json');
@@ -168,20 +182,25 @@ describe('application generator', () => {
 			"
 		`);
 	});
+
 	it('should extend from root tsconfig.json when no tsconfig.base.json', async () => {
 		tree.rename('tsconfig.base.json', 'tsconfig.json');
+
 		await applicationGenerator(tree, {
 			name: 'my-function-app',
 			directory: 'my-function-app',
 		});
+
 		const tsconfig = readJson(tree, 'my-function-app/tsconfig.json');
 		expect(tsconfig.extends).toBe('../tsconfig.json');
 	});
+
 	it('should generate strict by default', async () => {
 		await applicationGenerator(tree, {
 			name: 'my-function-app',
 			directory: 'my-function-app',
 		});
+
 		const tsconfig = readJson(tree, 'my-function-app/tsconfig.json');
 		expect(tsconfig.compilerOptions).toStrictEqual({
 			esModuleInterop: true,
@@ -193,12 +212,14 @@ describe('application generator', () => {
 			noFallthroughCasesInSwitch: true,
 		});
 	});
+
 	it('can set custom azureAppName', async () => {
 		await applicationGenerator(tree, {
 			name: 'my-function-app',
 			directory: 'my-function-app',
 			azureAppName: 'my-custom-app',
 		});
+
 		const project = readProjectConfiguration(tree, 'my-function-app');
 		expect(project.targets?.['publish'].options.azureAppName).toStrictEqual('my-custom-app');
 	});
