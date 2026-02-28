@@ -84,8 +84,8 @@ describe('Serve Executor', () => {
 		funcProcess.stderr = new Readable();
 		vi.spyOn(childProcess, 'spawn').mockReturnValueOnce(funcProcess);
 		vi.spyOn(funcProcess, 'kill').mockImplementation(() => true);
-		vi.spyOn(funcProcess.stdout, 'pipe').mockImplementation(() => true);
-		vi.spyOn(funcProcess.stderr, 'pipe').mockImplementation(() => true);
+		vi.spyOn(funcProcess.stdout, 'pipe').mockImplementation((destination) => destination);
+		vi.spyOn(funcProcess.stderr, 'pipe').mockImplementation((destination) => destination);
 	});
 
 	afterEach(() => {
