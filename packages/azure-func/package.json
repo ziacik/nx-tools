@@ -1,14 +1,14 @@
 {
 	"name": "@ziacik/azure-func",
-	"version": "0.0.0-e2e",
+	"version": "0.0.0",
 	"dependencies": {
 		"@nx/devkit": "22.5.1",
 		"@nx/js": "22.5.1",
 		"@nx/node": "22.5.1",
 		"typescript": "5.9.3",
 		"@swc/helpers": "~0.5.18",
-    "@nx/vite": "^22.5.1",
-    "vitest": "^4.0.0"
+		"@nx/vite": "^22.5.1",
+		"vitest": "^4.0.0"
 	},
 	"type": "commonjs",
 	"main": "./src/index.js",

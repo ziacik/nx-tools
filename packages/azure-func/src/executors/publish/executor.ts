@@ -22,7 +22,7 @@ export default async function runPublishExecutor(options: PublishExecutorSchema,
 
 	if (!azureAppName) {
 		logger.error(
-			'Unable to determine Azure Function App name for publishing because projectName is undefined or empty. Please set azureAppName option explicitly.'
+			'Unable to determine Azure Function App name for publishing because projectName is undefined or empty. Please set azureAppName option explicitly.',
 		);
 		return {
 			success: false,
@@ -48,6 +48,6 @@ function publishDist(distDir: string, azureAppName: string): { success: boolean 
 			cwd: distDir,
 			stdio: 'inherit',
 		},
-		`The func cli command not found. Please install it with 'npm i -g azure-functions-core-tools@4 --unsafe-perm true' or see https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local#install-the-azure-functions-core-tools`
+		`The func cli command not found. Please install it with 'npm i -g azure-functions-core-tools@4 --unsafe-perm true' or see https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local#install-the-azure-functions-core-tools`,
 	);
 }

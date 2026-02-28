@@ -86,6 +86,7 @@ step=11
 if [ $step -ge $START_STEP ]; then
   echo "Step 11: Autofixing lint issues and committing"
   npx nx affected:lint --fix || { echo "Error: linting failed"; exit 1; }
+  npx nx format
   git commit -am "chore: fix lint issues" || echo "No changes to commit after lint fix"
 fi
 step=12
