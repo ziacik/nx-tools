@@ -99,10 +99,6 @@ if [ $step -ge $START_STEP ]; then
   echo "Running e2e tests..."
   npx nx affected:e2e --parallel=1 || { echo "Error: e2e tests failed"; exit 1; }
 
-  echo "Reverting package.json changes modified by e2e tests"
-  git checkout -- packages/upgrade-verify/package.json || { echo "Error: git checkout failed"; exit 1; }
-  git checkout -- packages/azure-func/package.json || { echo "Error: git checkout failed"; exit 1; }
-
   echo "Verifying there are no changes in the working directory now..."
   if [ -n "$(git status --porcelain)" ]; then
     echo "Error: There are uncommitted changes in the working directory."
