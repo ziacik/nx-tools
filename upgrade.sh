@@ -92,8 +92,9 @@ fi
 step=12
 
 if [ $step -ge $START_STEP ]; then
-  echo "Step 12: Running build, lint, tests, and e2e tests"
+  echo "Step 12: Running build, typecheck:specs, tests, and e2e tests"
   npx nx affected:build || { echo "Error: build failed"; exit 1; }
+  npx nx affected -t typecheck:specs || { echo "Error: typecheck:specs failed"; exit 1; }
   npx nx affected:test || { echo "Error: tests failed"; exit 1; }
 
   echo "Running e2e tests..."

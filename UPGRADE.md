@@ -12,6 +12,7 @@
 - `npm audit fix`
 - `git commit -am "chore: deps updated"`
 - `npx nx affected:lint --fix`
+- `npx nx affected -t typecheck:specs`
 - `npx nx affected:test`
 - `npx nx affected:e2e --parallel=1`
 - `git commit -am "chore: fix lint and tests"`
