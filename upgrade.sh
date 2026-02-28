@@ -84,7 +84,14 @@ fi
 step=11
 
 if [ $step -ge $START_STEP ]; then
-  echo "Step 11: Running build, lint, tests, and e2e tests"
+  echo "Step 11: Autofixing lint issues and committing"
+  npx nx affected:lint --fix || { echo "Error: linting failed"; exit 1; }
+  git commit -am "chore: fix lint issues" || echo "No changes to commit after lint fix"
+fi
+step=12
+
+if [ $step -ge $START_STEP ]; then
+  echo "Step 12: Running build, lint, tests, and e2e tests"
   npx nx affected:build || { echo "Error: build failed"; exit 1; }
   npx nx affected:test || { echo "Error: tests failed"; exit 1; }
 
@@ -101,13 +108,6 @@ if [ $step -ge $START_STEP ]; then
     git status
     exit 1
   fi
-fi
-step=12
-
-if [ $step -ge $START_STEP ]; then
-  echo "Step 12: Autofixing lint issues and committing"
-  npx nx affected:lint --fix || { echo "Error: linting failed"; exit 1; }
-  git commit -am "chore: fix lint issues" || echo "No changes to commit after lint fix"
 fi
 step=13
 
