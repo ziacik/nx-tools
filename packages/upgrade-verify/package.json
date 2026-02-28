@@ -2,8 +2,10 @@
 	"name": "@ziacik/upgrade-verify",
 	"version": "0.0.0-e2e",
 	"dependencies": {
-		"@nx/devkit": "21.6.4",
-		"@swc/helpers": "0.5.11"
+		"@nx/devkit": "22.5.1",
+		"@swc/helpers": "~0.5.18",
+    "@nx/vite": "^22.5.1",
+    "vitest": "^4.0.0"
 	},
 	"type": "commonjs",
 	"main": "./src/index.js",
