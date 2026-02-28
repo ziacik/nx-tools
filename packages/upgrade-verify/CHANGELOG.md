@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Upgraded nx to 22.5.1.
+- Upgraded nx to 22.5.3.
 
 ## [4.0.0] - 2025-04-05
 
