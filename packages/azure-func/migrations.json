@@ -71,6 +71,15 @@
 					"alwaysAddToPackageJson": false
 				}
 			}
+		},
+		"5.0.0": {
+			"version": "5.0.0",
+			"packages": {
+				"@azure/functions": {
+					"version": "^4.11.2",
+					"alwaysAddToPackageJson": false
+				}
+			}
 		}
 	}
 }
