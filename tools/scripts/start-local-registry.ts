@@ -7,8 +7,8 @@
 
 import { startLocalRegistry } from '@nx/js/plugins/jest/local-registry';
 import { existsSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'fs';
-import { join } from 'path';
 import { releasePublish, releaseVersion } from 'nx/release';
+import { join } from 'path';
 
 type FileSnapshot = {
 	path: string;
@@ -58,10 +58,7 @@ function createReleaseFileSnapshots(): FileSnapshot[] {
 		.filter((entry) => entry.isDirectory())
 		.flatMap((entry) => {
 			const packageDirectory = join(packagesDirectory, entry.name);
-			return [
-				createFileSnapshot(join(packageDirectory, 'package.json')),
-				createFileSnapshot(join(packageDirectory, 'CHANGELOG.md')),
-			];
+			return [createFileSnapshot(join(packageDirectory, 'package.json')), createFileSnapshot(join(packageDirectory, 'CHANGELOG.md'))];
 		});
 }
 
