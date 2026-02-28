@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [5.0.0] - 2026-02-28
+
+### Fixed
+
+- `publish` executor now publishes the configured build output instead of triggering an internal build step.
+
+### Changed
+
+- Upgraded nx to 22.5.1.
+- Upgraded @azure/functions to 4.11.2.
+
 ## [4.0.0] - 2025-04-05
 
 ### Changed
@@ -162,7 +173,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `serve` now watches the project for changes.
 
-[unreleased]: https://github.com/ziacik/nx-tools/compare/azure-func-4.0.0...HEAD
+[unreleased]: https://github.com/ziacik/nx-tools/compare/azure-func-5.0.0...HEAD
+[5.0.0]: https://github.com/ziacik/nx-tools/compare/azure-func-4.0.0...azure-func-5.0.0
 [4.0.0]: https://github.com/ziacik/nx-tools/compare/azure-func-3.3.1...azure-func-4.0.0
 [3.3.1]: https://github.com/ziacik/nx-tools/compare/azure-func-3.3.0...azure-func-3.3.1
 [3.3.0]: https://github.com/ziacik/nx-tools/compare/azure-func-3.2.0...azure-func-3.3.0

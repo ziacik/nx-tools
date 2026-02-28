@@ -48,6 +48,6 @@ function publishDist(distDir: string, azureAppName: string): { success: boolean 
 			cwd: distDir,
 			stdio: 'inherit',
 		},
-		`The func cli command not found. Please install it with 'npm i -g azure-functions-core-tools@4 --unsafe-perm true' or see https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local#install-the-azure-functions-core-tools`,
+		`The func cli command not found. Please install the Azure Functions Core Tools: https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local#install-the-azure-functions-core-tools`,
 	);
 }
