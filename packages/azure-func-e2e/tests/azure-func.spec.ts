@@ -1,10 +1,11 @@
 import { execSync } from 'child_process';
 import { randomUUID } from 'crypto';
+import { getPackageManagerCommand } from '@nx/devkit';
 import { mkdirSync, rmSync } from 'fs';
 import { dirname, join } from 'path';
 
-const LOCAL_REGISTRY = 'http://localhost:4873';
 const TMP_DIRECTORY = join(process.cwd(), 'tmp');
+const PACKAGE_MANAGER_COMMAND = getPackageManagerCommand();
 
 describe('azure-func', () => {
 	let projectDirectory: string;
@@ -12,13 +13,10 @@ describe('azure-func', () => {
 	beforeAll(() => {
 		projectDirectory = createTestProject();
 
-		execSync(`npm install @ziacik/azure-func@e2e`, {
+		execSync(`${PACKAGE_MANAGER_COMMAND.addDev} @ziacik/azure-func@e2e`, {
 			cwd: projectDirectory,
 			stdio: 'inherit',
-			env: getCommandEnvironment({
-				NPM_CONFIG_REGISTRY: LOCAL_REGISTRY,
-				npm_config_registry: LOCAL_REGISTRY,
-			}),
+			env: getCommandEnvironment(),
 		});
 	});
 
@@ -27,7 +25,7 @@ describe('azure-func', () => {
 	});
 
 	it('should be installed', () => {
-		execSync('npm ls @ziacik/azure-func', {
+		execSync(`${PACKAGE_MANAGER_COMMAND.list} @ziacik/azure-func`, {
 			cwd: projectDirectory,
 			stdio: 'inherit',
 			env: getCommandEnvironment(),
@@ -35,11 +33,14 @@ describe('azure-func', () => {
 	});
 
 	it('should generate app', () => {
-		execSync('nx generate @ziacik/azure-func:application --directory=my-func-app --linter=eslint --unitTestRunner=jest --e2eTestRunner=none --framework=none', {
-			cwd: projectDirectory,
-			stdio: 'inherit',
-			env: getCommandEnvironment(),
-		});
+		execSync(
+			`${PACKAGE_MANAGER_COMMAND.exec} nx generate @ziacik/azure-func:application --directory=my-func-app --linter=eslint --unitTestRunner=jest --e2eTestRunner=none --framework=none`,
+			{
+				cwd: projectDirectory,
+				stdio: 'inherit',
+				env: getCommandEnvironment(),
+			}
+		);
 	});
 });
 
@@ -55,7 +56,7 @@ function createTestProject() {
 	removeDirectory(projectDirectory);
 	mkdirSync(dirname(projectDirectory), { recursive: true });
 
-	execSync(`npx --yes create-nx-workspace@latest ${projectName} --preset apps --nxCloud skip --no-interactive`, {
+	execSync(`${PACKAGE_MANAGER_COMMAND.dlx} create-nx-workspace@latest ${projectName} --preset apps --nxCloud skip --no-interactive`, {
 		cwd: dirname(projectDirectory),
 		stdio: 'inherit',
 		env: getCommandEnvironment(),
