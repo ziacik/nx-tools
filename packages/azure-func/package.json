@@ -1,13 +1,15 @@
 {
 	"name": "@ziacik/azure-func",
-	"version": "5.0.0",
+	"version": "5.0.1",
 	"dependencies": {
-		"@nx/devkit": "22.5.4",
-		"@nx/js": "22.5.4",
-		"@nx/node": "22.5.4",
-		"typescript": "5.9.3",
-		"@swc/helpers": "~0.5.18",
-		"@nx/vite": "^22.5.1",
+		"@nx/devkit": "^22.0.0",
+		"@swc/helpers": "~0.5.18"
+	},
+	"peerDependencies": {
+		"@nx/js": "^22.0.0",
+		"@nx/node": "^22.0.0",
+		"@nx/vite": "^22.0.0",
+		"typescript": "~5.9.3",
 		"vitest": "^4.0.0"
 	},
 	"type": "commonjs",
