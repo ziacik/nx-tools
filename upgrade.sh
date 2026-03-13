@@ -146,10 +146,16 @@ fi
 step=16
 
 if [ $step -ge $START_STEP ]; then
-  echo "Step 16: Committing package version bumps"
-  git commit -am "chore: package versions bumped" || { echo "Error: git commit failed"; exit 1; }
+  echo "Step 16: Running format check"
+  npx nx format:check || { echo "Error: nx format:check failed"; exit 1; }
 fi
 step=17
+
+if [ $step -ge $START_STEP ]; then
+  echo "Step 17: Committing package version bumps"
+  git commit -am "chore: package versions bumped" || { echo "Error: git commit failed"; exit 1; }
+fi
+step=18
 
 if [ $step -ge $START_STEP ]; then
   echo "NX upgrade to version $NX_VER completed successfully!"
