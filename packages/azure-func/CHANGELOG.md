@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [5.0.2] - 2026-03-13
+
+### Changed
+
+- Moved `typescript` and `vitest` from `peerDependencies` to `dependencies`.
+
 ## [5.0.1] - 2026-03-13
 
 ### Changed
@@ -181,7 +187,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `serve` now watches the project for changes.
 
-[unreleased]: https://github.com/ziacik/nx-tools/compare/azure-func-5.0.1...HEAD
+[unreleased]: https://github.com/ziacik/nx-tools/compare/azure-func-5.0.2...HEAD
+[5.0.2]: https://github.com/ziacik/nx-tools/compare/azure-func-5.0.1...azure-func-5.0.2
 [5.0.1]: https://github.com/ziacik/nx-tools/compare/azure-func-5.0.0...azure-func-5.0.1
 [5.0.0]: https://github.com/ziacik/nx-tools/compare/azure-func-4.0.0...azure-func-5.0.0
 [4.0.0]: https://github.com/ziacik/nx-tools/compare/azure-func-3.3.1...azure-func-4.0.0
