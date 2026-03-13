@@ -16,6 +16,11 @@ type FileSnapshot = {
 };
 
 const startLocalRegistryForTests = async () => {
+	// Keep the registry bootstrap and Nx Release publish step isolated from any
+	// daemon state that may be running in editors or other local Nx processes.
+	process.env['CI'] = 'true';
+	process.env['NX_DAEMON'] = 'false';
+
 	// local registry target to run
 	const localRegistryTarget = '@ziacik/source:local-registry';
 	// storage folder for the local registry

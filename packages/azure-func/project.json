@@ -4,6 +4,13 @@
 	"sourceRoot": "packages/azure-func/src",
 	"projectType": "library",
 	"tags": [],
+	"release": {
+		"version": {
+			"manifestRootsToUpdate": ["dist/{projectRoot}"],
+			"currentVersionResolver": "git-tag",
+			"fallbackCurrentVersionResolver": "disk"
+		}
+	},
 	"targets": {
 		"build": {
 			"executor": "@nx/js:swc",
