@@ -1,6 +1,6 @@
+import { getPackageManagerCommand } from '@nx/devkit';
 import { execSync } from 'child_process';
 import { randomUUID } from 'crypto';
-import { getPackageManagerCommand } from '@nx/devkit';
 import { mkdirSync, rmSync } from 'fs';
 import { dirname, join } from 'path';
 
@@ -39,7 +39,7 @@ describe('azure-func', () => {
 				cwd: projectDirectory,
 				stdio: 'inherit',
 				env: getCommandEnvironment(),
-			}
+			},
 		);
 	});
 });
