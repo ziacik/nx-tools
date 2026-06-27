@@ -10,6 +10,35 @@ NX_VER=$1
 VERSION_BUMP=${2:-}
 START_STEP=${3:-1}
 
+commit_all_changes() {
+  local message=$1
+
+  git add -A
+  git commit -m "$message"
+}
+
+commit_all_changes_if_any() {
+  local message=$1
+
+  git add -A
+  if git diff --cached --quiet; then
+    echo "No changes to commit for: $message"
+    return 0
+  fi
+
+  git commit -m "$message"
+}
+
+confirm_continue_after_audit_failure() {
+  echo "npm audit fix failed. Review the issue above."
+  read -p "Press 'C' to ignore this problem and continue: " -n 1 -r
+  echo
+  if [[ ! $REPLY =~ ^[Cc]$ ]]; then
+    echo "Script aborted by user."
+    exit 1
+  fi
+}
+
 if [ -z "$VERSION_BUMP" ]; then
   read -p "Enter version bump type (major, minor, patch or specific version): " VERSION_BUMP
 fi
@@ -49,7 +78,7 @@ step=6
 
 if [ $step -ge $START_STEP ]; then
   echo "Step 6: Committing NX upgrade changes"
-  git commit -am "chore: nx upgrade to $NX_VER" || { echo "Error: git commit failed"; exit 1; }
+  commit_all_changes "chore: nx upgrade to $NX_VER" || { echo "Error: git commit failed"; exit 1; }
 fi
 step=7
 
@@ -73,13 +102,13 @@ step=9
 if [ $step -ge $START_STEP ]; then
   echo "Step 9: Updating npm packages and fixing audits"
   npm update || { echo "Error: npm update failed"; exit 1; }
-  npm audit fix || { echo "Error: npm audit fix failed"; exit 1; }
+  npm audit fix || confirm_continue_after_audit_failure
 fi
 step=10
 
 if [ $step -ge $START_STEP ]; then
   echo "Step 10: Committing dependency updates"
-  git commit -am "chore: deps updated" || { echo "Error: git commit failed"; exit 1; }
+  commit_all_changes "chore: deps updated" || { echo "Error: git commit failed"; exit 1; }
 fi
 step=11
 
@@ -87,7 +116,7 @@ if [ $step -ge $START_STEP ]; then
   echo "Step 11: Autofixing lint issues and committing"
   npx nx affected:lint --fix || { echo "Error: linting failed"; exit 1; }
   npx nx format
-  git commit -am "chore: fix lint issues" || echo "No changes to commit after lint fix"
+  commit_all_changes_if_any "chore: fix lint issues" || { echo "Error: git commit failed"; exit 1; }
 fi
 step=12
 
@@ -153,7 +182,7 @@ step=17
 
 if [ $step -ge $START_STEP ]; then
   echo "Step 17: Committing package version bumps"
-  git commit -am "chore: package versions bumped" || { echo "Error: git commit failed"; exit 1; }
+  commit_all_changes "chore: package versions bumped" || { echo "Error: git commit failed"; exit 1; }
 fi
 step=18
 
