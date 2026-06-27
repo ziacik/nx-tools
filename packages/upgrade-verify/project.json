@@ -3,7 +3,6 @@
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
 	"sourceRoot": "packages/upgrade-verify/src",
 	"projectType": "library",
-	"tags": [],
 	"release": {
 		"version": {
 			"manifestRootsToUpdate": ["dist/{projectRoot}"],
@@ -11,6 +10,7 @@
 			"fallbackCurrentVersionResolver": "disk"
 		}
 	},
+	"tags": [],
 	"targets": {
 		"build": {
 			"executor": "@nx/js:swc",
@@ -64,7 +64,7 @@
 			"executor": "@nx/vitest:test",
 			"outputs": ["{options.reportsDirectory}"],
 			"options": {
-				"reportsDirectory": "../../coverage/packages/upgrade-verify"
+				"reportsDirectory": "{projectRoot}/../../coverage/packages/upgrade-verify"
 			}
 		}
 	}

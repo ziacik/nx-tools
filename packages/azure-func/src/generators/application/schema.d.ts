@@ -1,4 +1,4 @@
-import { Schema } from '@nx/node/src/generators/application/schema';
+import { Schema } from '@nx/node/internal';
 
 export interface ApplicationGeneratorSchema extends Schema {
 	name: string;
