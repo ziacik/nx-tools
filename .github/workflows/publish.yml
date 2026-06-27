@@ -2,17 +2,22 @@ name: Publish
 on:
   release:
     types: [published]
+
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v6
         with:
-          node-version: '18.x'
+          node-version: '24.x'
           registry-url: 'https://registry.npmjs.org'
+          cache: npm
       - run: echo "PACKAGE_NAME=$(echo "${GITHUB_REF#refs/tags/}" | sed 's/\(.*\)-[^-]*$/\1/')" >> $GITHUB_ENV
       - run: npm ci
       - run: npx nx build "$PACKAGE_NAME"
