@@ -14,7 +14,7 @@ import {
 	updateJson,
 	updateProjectConfiguration,
 } from '@nx/devkit';
-import { determineProjectNameAndRootOptions } from '@nx/devkit/src/generators/project-name-and-root-utils';
+import { determineProjectNameAndRootOptions } from '@nx/devkit/internal';
 import { getRelativePathToRootTsConfig } from '@nx/js';
 import { applicationGenerator as nodeApplicationGenerator } from '@nx/node';
 import { join } from 'path';
