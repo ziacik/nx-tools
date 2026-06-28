@@ -17,10 +17,10 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: '24.x'
-          registry-url: 'https://registry.npmjs.org'
           package-manager-cache: false
       - run: echo "PACKAGE_NAME=$(echo "${GITHUB_REF#refs/tags/}" | sed 's/\(.*\)-[^-]*$/\1/')" >> $GITHUB_ENV
+      - run: npm --version
       - run: npm ci
       - run: npx nx build "$PACKAGE_NAME"
-      - run: npm publish --access public
+      - run: npm publish --access public --provenance
         working-directory: dist/packages/${{ env.PACKAGE_NAME }}
