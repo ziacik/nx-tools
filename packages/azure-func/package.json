@@ -27,7 +27,7 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ziacik/nx-tools",
+		"url": "git+https://github.com/ziacik/nx-tools.git",
 		"directory": "packages/azure-func"
 	},
 	"license": "MIT",
