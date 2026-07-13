@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.0.1] - 2026-07-13
+
+### Changed
+
+- Relaxed Nx dependency ranges to accept all Nx 23 releases.
+- Moved `@nx/vite` and `vitest` from `peerDependencies` to `dependencies`.
+
 ## [6.0.0] - 2026-06-27
 
 ### Changed
@@ -151,7 +158,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - READMEs updated and props added to package.json.
 - A _Package subpath './package.json' is not defined by "exports"_ error hopefully fixed.
 
-[unreleased]: https://github.com/ziacik/nx-tools/compare/upgrade-verify-5.0.1...HEAD
+[unreleased]: https://github.com/ziacik/nx-tools/compare/upgrade-verify-6.0.1...HEAD
+[6.0.1]: https://github.com/ziacik/nx-tools/compare/upgrade-verify-6.0.0...upgrade-verify-6.0.1
+[6.0.0]: https://github.com/ziacik/nx-tools/compare/upgrade-verify-5.0.1...upgrade-verify-6.0.0
 [5.0.1]: https://github.com/ziacik/nx-tools/compare/upgrade-verify-5.0.0...upgrade-verify-5.0.1
 [5.0.0]: https://github.com/ziacik/nx-tools/compare/upgrade-verify-4.0.0...upgrade-verify-5.0.0
 [4.0.0]: https://github.com/ziacik/nx-tools/compare/upgrade-verify-3.3.1...upgrade-verify-4.0.0

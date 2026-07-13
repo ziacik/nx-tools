@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.0.1] - 2026-07-13
+
+### Changed
+
+- Relaxed Nx dependency and peer dependency ranges to accept all Nx 23 releases.
+- Moved `@nx/vite` from `peerDependencies` to `dependencies`.
+
 ## [6.0.0] - 2026-06-27
 
 ### Changed
@@ -194,7 +201,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `serve` now watches the project for changes.
 
-[unreleased]: https://github.com/ziacik/nx-tools/compare/azure-func-5.0.2...HEAD
+[unreleased]: https://github.com/ziacik/nx-tools/compare/azure-func-6.0.1...HEAD
+[6.0.1]: https://github.com/ziacik/nx-tools/compare/azure-func-6.0.0...azure-func-6.0.1
+[6.0.0]: https://github.com/ziacik/nx-tools/compare/azure-func-5.0.2...azure-func-6.0.0
 [5.0.2]: https://github.com/ziacik/nx-tools/compare/azure-func-5.0.1...azure-func-5.0.2
 [5.0.1]: https://github.com/ziacik/nx-tools/compare/azure-func-5.0.0...azure-func-5.0.1
 [5.0.0]: https://github.com/ziacik/nx-tools/compare/azure-func-4.0.0...azure-func-5.0.0
